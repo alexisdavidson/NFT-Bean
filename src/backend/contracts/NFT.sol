@@ -13,11 +13,11 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
 
     uint256 public amountMintPerAccount = 2;
     bool public mintEnabled;
-    uint256 public price = 0.006 ether;
+    uint256 public price = 0.01 ether;
 
     event MintSuccessful(address user);
 
-    constructor() ERC721A("Bean", "BB") { }
+    constructor() ERC721A("Beanstalker", "BEAN") { }
 
     function mint(uint256 quantity) external payable {
         require(mintEnabled, 'Minting is not enabled');

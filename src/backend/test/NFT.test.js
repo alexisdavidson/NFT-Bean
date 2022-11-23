@@ -8,7 +8,7 @@ describe("NFT & Planting", async function() {
     let deployer, addr1, addr2, nft
     let teamWallet = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     let whitelist = []
-    let price = 0.006
+    let price = 0.01
 
     beforeEach(async function() {
         // Get contract factories
@@ -26,8 +26,8 @@ describe("NFT & Planting", async function() {
 
     describe("Deployment", function() {
         it("Should track name and symbol of the nft collection", async function() {
-            expect(await nft.name()).to.equal("Bean")
-            expect(await nft.symbol()).to.equal("BB")
+            expect(await nft.name()).to.equal("Beanstalker")
+            expect(await nft.symbol()).to.equal("BEAN")
         })
     })
 
