@@ -4,77 +4,42 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => ethers.utils.formatEther(num)
 
 describe("NFT", async function() {
-    let deployer, addr1, addr2, nft, token
+    let deployer, addr1, addr2, nft
     let teamWallet = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     let whitelist = []
+    let price = 0.006
 
     beforeEach(async function() {
         // Get contract factories
         const NFT = await ethers.getContractFactory("NFT");
-        const Token = await ethers.getContractFactory("Token");
 
         // Get signers
         [deployer, addr1, addr2] = await ethers.getSigners();
         whitelist = [addr1.address, addr2.address]
 
-        const subscriptionId = 473; // mainnet
-
         // Deploy contracts
-        token = await Token.deploy([teamWallet]);
-        nft = await NFT.deploy(token.address, subscriptionId);
+        nft = await NFT.deploy();
     });
 
     describe("Deployment", function() {
         it("Should track name and symbol of the nft collection", async function() {
-            expect(await nft.name()).to.equal("Old Farm Man")
-            expect(await nft.symbol()).to.equal("OFM")
+            expect(await nft.name()).to.equal("Bean")
+            expect(await nft.symbol()).to.equal("BB")
         })
     })
 
-    describe("Initialize arrays", function() {
-        it("Should initialize arrays correctly", async function() {
-            await nft.initializeTokens(1000);
-            expect(await nft.getTokensInitializedCount()).to.equal(1000);
-            expect(await nft.getAvailableTokensCount()).to.equal(1000);
+    describe("Mint", function() {
+        it("Should mint NFTs correctly", async function() {
+            await expect(nft.connect(addr1).mint(1, { value: toWei(price)})).to.be.revertedWith('Minting is not enabled');
+            await nft.connect(deployer).setMintEnabled(true);
 
-            await nft.initializeTokens(1000);
-            expect(await nft.getTokensInitializedCount()).to.equal(2000);
-            expect(await nft.getAvailableTokensCount()).to.equal(2000);
+            await expect(nft.connect(addr1).mint(3, { value: toWei(price * 3)})).to.be.revertedWith('Each address may only mint x NFTs!');
+            await expect(nft.connect(addr1).mint(10000, { value: toWei(price)})).to.be.revertedWith('Cannot mint more than max supply');
+            await expect(nft.connect(addr1).mint(1)).to.be.revertedWith('Not enough ETH sent; check price!');
 
-            await nft.initializeTokens(3000);
-            expect(await nft.getTokensInitializedCount()).to.equal(5000);
-            expect(await nft.getAvailableTokensCount()).to.equal(5000);
-
-            await expect(nft.initializeTokens(1)).to.be.revertedWith('Cannot initialize more tokens than the max_supply');
-            
-        })
-    })
-
-    describe("Aidrop NFTs", function() {
-        it("Should track each airdop NFT", async function() {
-            // addr1 airdrops an nft
-            await nft.airdrop(addr1.address, 1);
-            expect(await nft.balanceOf(addr1.address)).to.equal(1);
-        })
-    })
-
-    describe("Redeem NFTs", function() {
-        it("Should track each redeemed NFT", async function() {
-            // addr1 airdrops an nft
-            await nft.airdrop(addr1.address, 1);
+            await nft.connect(addr1).mint(1, { value: toWei(price)});
             expect(await nft.balanceOf(addr1.address)).to.equal(1);
 
-            await nft.airdrop(addr2.address, 5);
-            expect(await nft.balanceOf(addr2.address)).to.equal(1);
-            
-            await nft.connect(addr1).redeemAndBurn(1);
-            expect(await nft.balanceOf(addr1.address)).to.equal(0);
-            
-            await nft.connect(addr2).redeemAndBurn(5);
-            expect(await nft.balanceOf(addr2.address)).to.equal(0);
-
-            expect(await nft.getRedeemedTokensUser()).to.have.all.members([addr1.address, addr2.address]);
-            expect(await nft.getRedeemedTokensTokenId()).to.have.all.members([1, 5]);
         })
     })
 })

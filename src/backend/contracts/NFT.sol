@@ -12,19 +12,21 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     uint256 public max_supply = 5000;
 
     uint256 public amountMintPerAccount = 2;
-    bool public paused;
+    bool public mintEnabled;
     uint256 public price = 0.006 ether;
 
     event MintSuccessful(address user);
 
-    constructor() ERC721("Ore Raid - Else Exchange Ticket", "ELSET") { }
+    constructor() ERC721A("Bean", "BB") { }
 
-    function mint(bytes32[] memory _proof) external {
-        require(!paused, 'Minting is paused');
-        require(balanceOf(msg.sender) < amountMintPerAccount, 'Each address may only mint x NFTs!');
+    function mint(uint256 quantity) external payable {
+        require(mintEnabled, 'Minting is not enabled');
         require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
+        require(balanceOf(msg.sender) + quantity <= amountMintPerAccount, 'Each address may only mint x NFTs!');
         require(msg.value >= getPrice() * quantity, "Not enough ETH sent; check price!");
         
+        _mint(msg.sender, quantity);
+
         emit MintSuccessful(msg.sender);
     }
 
@@ -61,8 +63,8 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
         price = _price;
     }
 
-    function setPause(bool _state) public onlyOwner {
-        paused = _state;
+    function setMintEnabled(bool _state) public onlyOwner {
+        mintEnabled = _state;
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
