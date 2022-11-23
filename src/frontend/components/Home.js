@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Button } from 'react-bootstrap'
-import ticket from './assets/ticket0001.png'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
@@ -26,7 +25,7 @@ const Home = ({ web3Handler, loading, account, nft, ticketsLeft, isWhitelisted, 
                     <h2 className="ticketTitle">Else Exchange Ticket Free Mint</h2>
                 </Row>
                 <Row className="mx-auto mt-4 mb-4">
-                    <img className="ticketImage m-auto" src={ticket} />
+                    {/* <img className="ticketImage m-auto" src={ticket} /> */}
                 </Row>
                 <Row className="mx-auto mt-0 mb-2">
                     <div className="ticketText">{ticketsLeft}/5000 Tickets Remaining</div>

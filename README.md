@@ -1,1 +1,1 @@
-# NFT Ore Raid (Hardhat-Solidity-React)
+# NFT (Hardhat-Solidity-React)
