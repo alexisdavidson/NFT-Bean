@@ -15,11 +15,13 @@ import NFTAddress from '../contractsData/NFT-address.json'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
+const totalSupply = 5000
+
 function App() {
   const [loading, setLoading] = useState(true)
   const [account, setAccount] = useState(null)
   const [balance, setBalance] = useState(0)
-  const [ticketsLeft, setTicketsLeft] = useState(5000)
+  const [supplyLeft, setSupplyLeft] = useState(totalSupply)
   const [nft, setNFT] = useState({})
 
   const web3Handler = async () => {
@@ -39,7 +41,7 @@ function App() {
 
   const mintFinished = () => {
       console.log("mintFinished")
-      setTicketsLeft(ticketsLeft - 1)
+      setSupplyLeft(supplyLeft - 1)
       setBalance(balance + 1)
   }
 
@@ -48,9 +50,9 @@ function App() {
     const signer = provider.getSigner()
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
-    const ticketsLeftTemp = 5000 - await nft.currentToken()
-    console.log("tickets left: " + ticketsLeftTemp)
-    setTicketsLeft(ticketsLeftTemp)
+    const supplyLeftTemp = totalSupply - await nft.currentToken()
+    console.log("tickets left: " + supplyLeftTemp)
+    setSupplyLeft(supplyLeftTemp)
     listenToEvents(nft)
     setNFT(nft)
     setLoading(false)
@@ -71,7 +73,7 @@ function App() {
         <Routes>
           <Route path="/" element={
             <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
-              ticketsLeft={ticketsLeft} balance={balance} >
+              supplyLeft={supplyLeft} balance={balance} >
               </Home>
           } />
         </Routes>

@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'react-bootstrap'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, loading, account, nft, ticketsLeft, isWhitelisted, balance, proof }) => {
+const Home = ({ web3Handler, loading, account, nft, supplyLeft, isWhitelisted, balance, proof }) => {
 
     const mintButton = async () => {
         // Connect
@@ -28,7 +28,7 @@ const Home = ({ web3Handler, loading, account, nft, ticketsLeft, isWhitelisted, 
                     {/* <img className="ticketImage m-auto" src={ticket} /> */}
                 </Row>
                 <Row className="mx-auto mt-0 mb-2">
-                    <div className="ticketText">{ticketsLeft}/5000 Tickets Remaining</div>
+                    <div className="ticketText">{supplyLeft}/5000 Tickets Remaining</div>
                 </Row>
                 <Row className="mx-auto mt-0 mb-2">
                     {account && isWhitelisted == true && balance == 0 ? (
