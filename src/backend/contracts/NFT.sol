@@ -3,33 +3,27 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import "erc721a/contracts/ERC721A.sol";
 import {DefaultOperatorFilterer} from "./DefaultOperatorFilterer.sol";
 
-contract NFT is Ownable, ERC721Burnable, DefaultOperatorFilterer {
+contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     string public uriPrefix = '';
     string public uriSuffix = '.json';
     uint256 public max_supply = 5000;
-    uint256 public amountMintPerAccount = 1;
-    uint256 public currentToken = 0;
 
-    bytes32 public whitelistRoot;
-    bool public publicSaleEnabled;
+    uint256 public amountMintPerAccount = 2;
+    bool public paused;
+    uint256 public price = 0.006 ether;
 
     event MintSuccessful(address user);
 
-    constructor(bytes32 _whitelistRoot) ERC721("Ore Raid - Else Exchange Ticket", "ELSET") { 
-        whitelistRoot = _whitelistRoot;
-    }
+    constructor() ERC721("Ore Raid - Else Exchange Ticket", "ELSET") { }
 
     function mint(bytes32[] memory _proof) external {
+        require(!paused, 'Minting is paused');
         require(balanceOf(msg.sender) < amountMintPerAccount, 'Each address may only mint x NFTs!');
-        require(currentToken < max_supply, 'No more NFT available to mint!');
-        require(publicSaleEnabled || isValid(_proof, keccak256(abi.encodePacked(msg.sender))), 'You are not whitelisted');
-
-        currentToken += 1;
-        _safeMint(msg.sender, currentToken);
+        require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
+        require(msg.value >= getPrice() * quantity, "Not enough ETH sent; check price!");
         
         emit MintSuccessful(msg.sender);
     }
@@ -59,16 +53,16 @@ contract NFT is Ownable, ERC721Burnable, DefaultOperatorFilterer {
         amountMintPerAccount = _amountMintPerAccount;
     }
 
-    function setPublicSaleEnabled(bool _state) public onlyOwner {
-        publicSaleEnabled = _state;
+    function getPrice() view public returns(uint) {
+        return price;
     }
 
-    function setWhitelistRoot(bytes32 _whitelistRoot) public onlyOwner {
-        whitelistRoot = _whitelistRoot;
+    function setPrice(uint _price) public onlyOwner {
+        price = _price;
     }
 
-    function isValid(bytes32[] memory _proof, bytes32 _leaf) public view returns (bool) {
-        return MerkleProof.verify(_proof, whitelistRoot, _leaf);
+    function setPause(bool _state) public onlyOwner {
+        paused = _state;
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
