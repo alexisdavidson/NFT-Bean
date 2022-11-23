@@ -86,4 +86,8 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     function withdraw() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
+    
+    function _startTokenId() internal view override returns (uint256) {
+        return 1;
+    }
 }

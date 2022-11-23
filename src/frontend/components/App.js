@@ -70,13 +70,13 @@ function App() {
     <BrowserRouter>
       <div className="App" id="wrapper">
         {/* <Navigation /> */}
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={
             <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
               supplyLeft={supplyLeft} balance={balance} >
               </Home>
           } />
-        </Routes>
+        </Routes> */}
       </div>
     </BrowserRouter>
   );
