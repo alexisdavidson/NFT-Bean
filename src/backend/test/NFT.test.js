@@ -138,6 +138,9 @@ describe("NFT & Planting", async function() {
             // 5th plant
             await expect(planting.connect(addr1).plant()).to.be.revertedWith('Your plant already reached maximum growth!');
             
+            // Different user
+            currentPlant = await planting.getPlant(addr2.address)
+            expect(currentPlant.phase).to.equal(0)
         })
     })
 })
