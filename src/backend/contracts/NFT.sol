@@ -40,7 +40,7 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://QmeaA4wbxTHPEp58KSkgvfWs1ZpURSm2crYsW35SWMPwoM/";
+        return "ipfs://QmZnXGbXgpBNjAJaaaoWsH5VYoTNkVgpVmbpgFXnTUyQ5d/";
     }
     
     function baseTokenURI() public pure returns (string memory) {
@@ -48,7 +48,7 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     }
 
     function contractURI() public pure returns (string memory) {
-        return "ipfs://QmdmSPaNFaBzVR3GSFDfmP7DG9JdahnDu1P94L5H44Y5DR/";
+        return "ipfs://QmQyzT57qahsGY2qp6fZ3G1TEUzciDmA7xcPaiyS1QswLr/";
     }
 
     function setAmountMintPerAccount(uint _amountMintPerAccount) public onlyOwner {

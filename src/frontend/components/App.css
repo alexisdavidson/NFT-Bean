@@ -9,7 +9,7 @@ body {
 
 .App {
   text-align: center;
-  background-image: url("./assets/bg_farm.png");
+  background-image: url("./assets/bg_home.png");
   background-repeat: no-repeat;
   background-size: cover;
   width: auto;
@@ -21,6 +21,20 @@ body {
 a:link, a:visited, a:hover, a:active {
   color: white;
   text-decoration: none;
+}
+
+.logoDiv {
+  position: absolute;
+  top: 0;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  padding: 0;
+}
+
+.logo {
+  width: 68%;
 }
 
 .splashScreen {
@@ -53,13 +67,6 @@ a:link, a:visited, a:hover, a:active {
   .addressButton {
     font-size: 0.6rem;
     height: 1.7rem;
-  }
-
-  .logo {
-    position: absolute;
-    left: 50%;
-    margin-left: -140px !important;  /* 50% of your logo width */
-    display: block;
   }
 }
 @media only screen and (orientation:landscape){
