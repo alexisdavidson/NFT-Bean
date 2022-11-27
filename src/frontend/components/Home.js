@@ -6,6 +6,7 @@ import logoMobile from './assets/mobile/logo.png'
 import menuIcon from './assets/mobile/menu.png'
 import homeIcon from './assets/mobile/home.png'
 import HowTo from './ActionHowTo'
+import Menu from './ActionMenu'
 import Mint from './ActionMint'
 import AboutUs from './ActionAboutUs'
 
@@ -105,19 +106,18 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                         </Row>
                     </Col>
                 </Row>
-
-
-                {/* FRAME */}
-                {
-                    {
-                    '0': <></>,
-                    '1': <Mint />,
-                    '2': <HowTo />,
-                    '3': <AboutUs />,
-                    '10': <HowTo />,
-                    }[menu]
-                }
             </div>
+
+            {/* FRAME */}
+            {
+                {
+                '0': <></>,
+                '1': <Mint />,
+                '2': <HowTo />,
+                '3': <AboutUs />,
+                '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
+                }[menu]
+            }
         </div>
     );
 }

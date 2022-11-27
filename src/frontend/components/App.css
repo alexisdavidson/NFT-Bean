@@ -62,7 +62,7 @@ a:link, a:visited, a:hover, a:active {
   height: 70%;
 }
 
-.actionButton, .shortButton, .longButton {
+.actionButton, .shortButton, .longButton, .mobileMenuButton {
   /* Button image dimensions: 309px * 155px */
   background-image: url("./assets/button.png");
   background-size: 100% 100%;
@@ -94,6 +94,12 @@ a:link, a:visited, a:hover, a:active {
 
 .actionButton:hover, .shortButton:hover {
   cursor: pointer;
+}
+
+.mobileMenuButton {
+  background-image: none;
+  height: 3rem;
+  font-size: 2rem;
 }
 
 .leftArrowImage {
