@@ -14,6 +14,7 @@ body {
   background-image: url("./assets/bg_home.png");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center center; 
   width: auto;
   height: 100vh;
 }
@@ -54,6 +55,11 @@ a:link, a:visited, a:hover, a:active {
   display: flex;
   padding-top: 10vh;
   padding-bottom: 10vh;
+  
+  top : 25%;
+  left : 25%;
+  width: 50%;
+  height: 70%;
 }
 
 .actionButton, .shortButton, .longButton {
@@ -125,30 +131,49 @@ a:link, a:visited, a:hover, a:active {
 
 
 
-@media only screen and (orientation:portrait){
+@media only screen and (max-width: 1199.98px){
   .actionFrame {
+    background-image: url("./assets/mobile/mint_menu.png");
     top : 15%;
     left : 5%;
     width: 90%;
     height: 70%;
   }
-  
-  .addressButton {
-    font-size: 0.6rem;
-    height: 1.7rem;
-  }
-}
-@media only screen and (orientation:landscape){
-  .actionFrame {
-    top : 25%;
-    left : 25%;
-    width: 50%;
-    height: 70%;
+  .logo {
+    width: 95%;
   }
   
-  .addressButton {
-    height: 2rem;
-    font-size: 0.8rem;
+
+  .Home, .Farm {
+    background-image: url("./assets/mobile/bg.png");
+  }
+
+  .Farm {
+    background-image: url("./assets/mobile/farm.png");
+  }
+  
+
+  .menuMobileDiv, .homeMobileDiv {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: end;
+    justify-content: end;
+  }
+  .homeMobileDiv {
+    align-items: start;
+    justify-content: start;
+    left: 2%;
+  }
+  .menuMobileImage {
+    width: 15%;
+  }
+  .homeMobileImage {
+    width: 12%;
   }
 }
 

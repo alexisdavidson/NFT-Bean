@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Image, Row, Col, Button } from 'react-bootstrap'
 import logo from './assets/logo.png'
+import logoMobile from './assets/mobile/logo.png'
+import menuIcon from './assets/mobile/menu.png'
+import homeIcon from './assets/mobile/home.png'
 import HowTo from './ActionHowTo'
 import Mint from './ActionMint'
 
@@ -11,13 +14,13 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
     const [menu, setMenu] = useState(0)
 
-    const closeFrame = () => {
+    const closeMenu = () => {
         setMenu(0)
     }
 
     const toggleMenu = (menuId) => {
         if (menu == menuId)
-            closeFrame()
+            closeMenu()
         else
             setMenu(menuId)
     }
@@ -41,12 +44,20 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
     return (
         <div className="m-0 p-0 Home">
             {/* LOGO */}
-            <div className="logoDiv"> <Image src={logo} className = "logo" /> </div>
+            <div className="logoDiv d-none d-xl-block"> <Image src={logo} className = "logo" /> </div>
+            <div className="logoDiv d-xl-none"> <Image src={logoMobile} className = "logo" /> </div>
 
 
-            {/* FRAME */}
-            <div className="m-0 p-0 container-fluid">
-                {/* BUTTONS */}
+            {/* MENU */}
+            <div className="homeMobileDiv d-xl-none"> 
+                <Image src={homeIcon} className = "homeMobileImage"  onClick={() => closeMenu()} /> 
+            </div>
+            <div className="menuMobileDiv d-xl-none"> 
+                <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
+            </div>
+
+            {/* BUTTONS */}
+            <div className="m-0 p-0 container-fluid d-none d-xl-block">
                 <Row className="m-0 p-0">
                     <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                         <Row className="mx-0 p-0" style={{marginTop: "30vh"}}>
@@ -89,6 +100,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                     </Col>
                 </Row>
 
+                {/* FRAME */}
                 {menu == 1 ? (
                     <HowTo />
                 ) : (
