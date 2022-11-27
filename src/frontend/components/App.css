@@ -17,6 +17,7 @@ body {
   background-position: center center; 
   width: auto;
   height: 100vh;
+  z-index: -39;
 }
 
 .Farm {
@@ -99,6 +100,7 @@ a:link, a:visited, a:hover, a:active {
   padding: 4vh;
   line-height: 1.6rem;
   margin-top: 8vh;
+  z-index: 1;
 }
 
 .actionButton:hover, .shortButton:hover {
@@ -180,6 +182,7 @@ a:link, a:visited, a:hover, a:active {
     width: 100%;
     margin: 0;
     padding: 1vh;
+    z-index: 1;
   }
   .menuMobileCol {
     display: flex;
@@ -206,6 +209,16 @@ a:link, a:visited, a:hover, a:active {
 
   .plant_0, .plant_1, .plant_2, .plant_3 {
     width: 70%;
+  }
+
+  .plant_4 {
+    position: absolute;
+    bottom: 0;
+    left: -9999px;
+    right: -9999px;
+    /* width: 100%; */
+    margin: auto;
+    padding: 1vh;
   }
 }
 

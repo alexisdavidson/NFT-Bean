@@ -18,7 +18,7 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
     const [topText, setTopText] = useState("")
 
     const loadPlant = async () => {
-        setPlant(3)
+        setPlant(4)
         setTopText("CLICK THE POT TO PLANT THE BEAN")
     }
 
