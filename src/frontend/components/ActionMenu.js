@@ -8,7 +8,7 @@ const Menu = ({closeMenu, toggleMenu, buttonLinkOnClick}) => {
         <Row className="actionFrame">
             <Row className="m-0 p-0">
                 <div className="mobileMenuButton" onClick={() => toggleMenu(1)}>MINT A BEAN</div>
-                <div className="mobileMenuButton" onClick={() => closeMenu()}>FARM</div>
+                <div className="mobileMenuButton" onClick={() => {closeMenu == null ? buttonLinkOnClick('farmLink') : closeMenu()}}>FARM</div>
                 <div className="mobileMenuButton" onClick={() => toggleMenu(2)}>HOW TO</div>
                 <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('twitterLink')}>TWITTER</div>
                 <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('discordLink')}>DISCORD</div>

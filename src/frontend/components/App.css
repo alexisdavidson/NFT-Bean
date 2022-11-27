@@ -79,18 +79,21 @@ a:link, a:visited, a:hover, a:active {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
 .shortButton {
   /* Button image dimensions: 309px * 155px */
   background-image: url("./assets/button_short.png");
   height: 9rem;
+  z-index: 1;
 }
 
 .longButton {
   background-image: url("./assets/button_long.png");
   width: 40rem;
   height: 9rem;
+  z-index: 1;
 }
 
 .longMobileButton {
