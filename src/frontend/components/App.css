@@ -5,17 +5,21 @@
 
 body {
   height: 100vh;
+  font-family: myFirstFont;
+  color: #223c29;
+  text-align: center;
 }
 
-.App {
-  text-align: center;
+.Home, .Farm {
   background-image: url("./assets/bg_home.png");
   background-repeat: no-repeat;
   background-size: cover;
   width: auto;
   height: 100vh;
-  font-family: myFirstFont;
-  color: #223c29;
+}
+
+.Farm {
+  background-image: url("./assets/bg_farm.png");
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -52,7 +56,7 @@ a:link, a:visited, a:hover, a:active {
   padding-bottom: 10vh;
 }
 
-.actionButton {
+.actionButton, .shortButton {
   /* Button image dimensions: 309px * 155px */
   background-image: url("./assets/button.png");
   background-size: 100% 100%;
@@ -70,8 +74,18 @@ a:link, a:visited, a:hover, a:active {
   justify-content: center;
 }
 
-.actionButton:hover {
+.shortButton {
+  /* Button image dimensions: 309px * 155px */
+  background-image: url("./assets/button_short.png");
+  height: 9rem;
+}
+
+.actionButton:hover, .shortButton:hover {
   cursor: pointer;
+}
+
+.leftArrowImage {
+  height: 30%;
 }
 
 @media only screen and (orientation:portrait){

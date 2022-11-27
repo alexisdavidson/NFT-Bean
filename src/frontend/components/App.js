@@ -5,6 +5,7 @@ import {
 } from "react-router-dom"
 import './App.css';
 import Home from './Home';
+import Farm from './Farm';
 
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
@@ -74,7 +75,12 @@ function App() {
           <Route path="/" element={
             <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
               supplyLeft={supplyLeft} balance={balance} >
-              </Home>
+            </Home>
+          } />
+          <Route path="/farm" element={
+            <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
+              supplyLeft={supplyLeft} balance={balance} >
+            </Farm>
           } />
         </Routes>
       </div>

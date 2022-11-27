@@ -39,7 +39,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
     }
 
     return (
-        <>
+        <div className="m-0 p-0 Home">
             {/* LOGO */}
             <div className="logoDiv"> <Image src={logo} className = "logo" /> </div>
 
@@ -55,8 +55,9 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => toggleMenu(2)} >
+                            <div className="actionButton" onClick={() => buttonLinkOnClick('farmLink')} >
                                 FARM
+                                <a href="/farm" id="farmLink"></a>
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
@@ -94,7 +95,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                     <></>
                 )}
             </div>
-        </>
+        </div>
     );
 }
 export default Home
