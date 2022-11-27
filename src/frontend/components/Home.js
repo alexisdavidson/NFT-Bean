@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Image, Row, Col, Button } from 'react-bootstrap'
 import logo from './assets/logo.png'
+import HowTo from './ActionHowTo'
+import Mint from './ActionMint'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
@@ -25,45 +27,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                 <Image src={logo} className = "logo" />
             </div>
             <div className="m-0 p-0 container-fluid">
-                <Row className="actionFrame">
-                    <Row className="mx-auto mt-2 p-0">
-                        <h2 className="ticketTitle">Else Exchange Ticket Free Mint</h2>
-                    </Row>
-                    <Row className="mx-auto mt-4 mb-4">
-                        {/* <img className="ticketImage m-auto" src={ticket} /> */}
-                    </Row>
-                    <Row className="mx-auto mt-0 mb-2">
-                        <div className="ticketText">{supplyLeft}/5000 Tickets Remaining</div>
-                    </Row>
-                    <Row className="mx-auto mt-0 mb-2">
-                        {account && balance < 2 ? (
-                            <div className="ticketText">0,00 ETH</div>
-                        ) : (
-                            <></>
-                        )}
-                    </Row>
-                    <Row className="mx-auto mt-0">
-                        {account && !loading ? (
-                            balance == 0 ? (
-                                <Button className="mintbutton" onClick={mintButton}>Mint Ticket</Button>
-                            ) : (
-                                <h2 className="ticketTitle">You had minted 1 ticket</h2>
-                            )
-                        ) : (
-                            <Button className="mintbutton" onClick={mintButton}>Connect</Button>
-                        )}
-                    </Row>
-                    <Row className="mx-auto mt-0 mb-4">
-                        {account ? (
-                            <Button className="addressButton">{account}</Button>
-                        ) : (
-                            <></>
-                        )}
-                    </Row>
-                    <Row className="mx-auto mt-0 mb-4">
-                        <div className="ticketText">1 Ticket per Wallet</div>
-                    </Row>
-                </Row>
+                <HowTo />
             </div>
         </>
     );
