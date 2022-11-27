@@ -13,20 +13,7 @@ import AboutUs from './ActionAboutUs'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
-    const [menu, setMenu] = useState(0)
-
-    const closeMenu = () => {
-        toggleMenu(0)
-    }
-
-    const toggleMenu = (menuId) => {
-        console.log("toggleMenu " + menuId)
-        if (menu == menuId)
-            setMenu(0)
-        else
-            setMenu(menuId)
-    }
+const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu }) => {
 
     const buttonLinkOnClick = (elementId) => {
         var ex = document.getElementById(elementId);
@@ -73,7 +60,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => buttonLinkOnClick('farmLink')} >
+                            <div className="actionButton" onClick={() => {closeMenu(); buttonLinkOnClick('farmLink')}} >
                                 FARM
                                 <a href="/farm" id="farmLink"></a>
                             </div>

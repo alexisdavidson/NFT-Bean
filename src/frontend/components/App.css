@@ -62,7 +62,7 @@ a:link, a:visited, a:hover, a:active {
   height: 70%;
 }
 
-.actionButton, .shortButton, .longButton, .mobileMenuButton {
+.actionButton, .shortButton, .longButton, .mobileMenuButton, .longMobileButton {
   /* Button image dimensions: 309px * 155px */
   background-image: url("./assets/button.png");
   background-size: 100% 100%;
@@ -90,6 +90,15 @@ a:link, a:visited, a:hover, a:active {
   background-image: url("./assets/button_long.png");
   width: 40rem;
   height: 9rem;
+}
+
+.longMobileButton {
+  background-image: url("./assets/button_short.png");
+  width: 20rem;
+  height: 10rem;
+  padding: 4vh;
+  line-height: 1.6rem;
+  margin-top: 8vh;
 }
 
 .actionButton:hover, .shortButton:hover {
@@ -192,6 +201,11 @@ a:link, a:visited, a:hover, a:active {
   }
   .homeMobileImage {
     width: 25%;
+  }
+  
+
+  .plant_0, .plant_1, .plant_2, .plant_3 {
+    width: 70%;
   }
 }
 

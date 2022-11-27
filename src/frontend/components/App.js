@@ -24,6 +24,19 @@ function App() {
   const [balance, setBalance] = useState(0)
   const [supplyLeft, setSupplyLeft] = useState(totalSupply)
   const [nft, setNFT] = useState({})
+  const [menu, setMenu] = useState(0)
+
+  const closeMenu = () => {
+      toggleMenu(0)
+  }
+
+  const toggleMenu = (menuId) => {
+      console.log("toggleMenu " + menuId)
+      if (menu == menuId)
+          setMenu(0)
+      else
+          setMenu(menuId)
+  }
 
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -74,12 +87,12 @@ function App() {
         <Routes>
           <Route path="/" element={
             <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
-              supplyLeft={supplyLeft} balance={balance} >
+              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu}>
             </Home>
           } />
           <Route path="/farm" element={
             <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
-              supplyLeft={supplyLeft} balance={balance} >
+              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu}>
             </Farm>
           } />
         </Routes>
