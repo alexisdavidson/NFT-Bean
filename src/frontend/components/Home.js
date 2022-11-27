@@ -15,12 +15,13 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
     const [menu, setMenu] = useState(0)
 
     const closeMenu = () => {
-        setMenu(0)
+        toggleMenu(0)
     }
 
     const toggleMenu = (menuId) => {
+        console.log("toggleMenu " + menuId)
         if (menu == menuId)
-            closeMenu()
+            setMenu(0)
         else
             setMenu(menuId)
     }
@@ -49,11 +50,15 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
 
 
             {/* MENU */}
-            <div className="homeMobileDiv d-xl-none"> 
-                <Image src={homeIcon} className = "homeMobileImage"  onClick={() => closeMenu()} /> 
-            </div>
             <div className="menuMobileDiv d-xl-none"> 
-                <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
+                <Row className="menuMobileCol">
+                    <Col className="col-6 homeMobileCol">
+                        <Image src={homeIcon} className = "homeMobileImage"  onClick={() => closeMenu()} />
+                    </Col>
+                    <Col className="col-6 menuMobileCol">
+                        <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
+                    </Col>
+                </Row> 
             </div>
 
             {/* BUTTONS */}
