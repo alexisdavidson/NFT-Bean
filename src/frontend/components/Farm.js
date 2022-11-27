@@ -5,23 +5,18 @@ import logo from './assets/logo.png'
 import HowTo from './ActionHowTo'
 import Mint from './ActionMint'
 import leftArrow from './assets/left_arrow.svg'
-import plant_0 from './assets/plant_0.png'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Farm = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
-    const [menu, setMenu] = useState(0)
+const Farm = ({ web3Handler, planting, account, nft, balance }) => {
+    const [plant, setPlant] = useState(0)
+    const [countdown, setCountdown] = useState(0)
+    const [topText, setTopText] = useState("")
 
-    const closeFrame = () => {
-        setMenu(0)
-    }
-
-    const toggleMenu = (menuId) => {
-        if (menu == menuId)
-            closeFrame()
-        else
-            setMenu(menuId)
+    const loadPlant = async () => {
+        setPlant(1)
+        setTopText("CLICK THE POT TO PLANT THE BEAN")
     }
 
     const buttonLinkOnClick = (elementId) => {
@@ -30,16 +25,27 @@ const Farm = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
         ex.click();
     }
 
-    const mintButton = async () => {
+    const plantButton = async () => {
+        console.log("plantButton")
+        return
+
         // Connect
         if (account == null) {
             await web3Handler();
             return;
         }
 
-        console.log("triggerMint");
-        await nft.mint(1)
+        //verify bean balance
+        //verify allowance
+
+        console.log("triggerPlant");
+        await planting.plant()
     }
+    
+
+    useEffect(() => {
+        loadPlant()
+    }, [])
 
     return (
         <div className="m-0 p-0 Farm">
@@ -57,7 +63,7 @@ const Farm = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                     </Col>
                     <Col className="mx-0 p-0 my-4 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                         <div className="longButton">
-                            CLICK THE POT TO PLANT THE BEAN
+                            {topText}
                         </div>
                     </Col>
                     <Col className="pe-5 ps-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
@@ -65,13 +71,8 @@ const Farm = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                 </Row>
 
                 <div className="plantDiv">
-                    <Image src={plant_0} className="plant plant0" />
+                    <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
                 </div>
-                {menu == 1 ? (
-                    <HowTo />
-                ) : (
-                    <></>
-                )}
             </div>
         </div>
     );

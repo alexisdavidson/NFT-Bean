@@ -109,7 +109,7 @@ a:link, a:visited, a:hover, a:active {
   cursor: pointer;
 }
 
-.plant0 {
+.plant_0, .plant_1, .plant_2, .plant_3 {
   width: 20%;
 }
 
