@@ -50,7 +50,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
 
 
             {/* MENU */}
-            <div className="menuMobileDiv d-xl-none"> 
+            <div className="navbarMobileDiv d-xl-none"> 
                 <Row className="menuMobileCol">
                     <Col className="col-6 homeMobileCol">
                         <Image src={homeIcon} className = "homeMobileImage"  onClick={() => closeMenu()} />
