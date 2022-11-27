@@ -49,7 +49,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
             <div className="logoDiv d-xl-none"> <Image src={logoMobile} className = "logo" /> </div>
 
 
-            {/* MENU */}
+            {/* NAVBAR */}
             <div className="navbarMobileDiv d-xl-none"> 
                 <Row className="menuMobileCol">
                     <Col className="col-6 homeMobileCol">
@@ -58,7 +58,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                     <Col className="col-6 menuMobileCol">
                         <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
                     </Col>
-                </Row> 
+                </Row>
             </div>
 
             {/* BUTTONS */}
@@ -77,7 +77,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => toggleMenu(3)} >
+                            <div className="actionButton" onClick={() => toggleMenu(2)} >
                                 HOW TO
                             </div>
                         </Row>
@@ -98,19 +98,24 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => toggleMenu(4)} >
+                            <div className="actionButton" onClick={() => toggleMenu(3)} >
                                 ABOUT US
                             </div>
                         </Row>
                     </Col>
                 </Row>
 
+
                 {/* FRAME */}
-                {menu == 1 ? (
-                    <HowTo />
-                ) : (
-                    <></>
-                )}
+                {
+                    {
+                    '0': <></>,
+                    '1': <Mint />,
+                    '2': <HowTo />,
+                    // '3': <AboutUs />,
+                    '10': <HowTo />,
+                    }[menu]
+                }
             </div>
         </div>
     );
