@@ -25,7 +25,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                 <Image src={logo} className = "logo" />
             </div>
             <div className="m-0 p-0 container-fluid">
-                <Row className="splashScreen my-3 p-3 container-fluid">
+                <Row className="actionFrame">
                     <Row className="mx-auto mt-2 p-0">
                         <h2 className="ticketTitle">Else Exchange Ticket Free Mint</h2>
                     </Row>

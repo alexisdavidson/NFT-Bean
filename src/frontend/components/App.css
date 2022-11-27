@@ -15,7 +15,7 @@ body {
   width: auto;
   height: 100vh;
   font-family: myFirstFont;
-  color: #302635;
+  color: #223c29;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -25,7 +25,7 @@ a:link, a:visited, a:hover, a:active {
 
 .logoDiv {
   position: absolute;
-  top: 0;
+  top: 2%;
   left: 0; 
   right: 0; 
   margin-left: auto; 
@@ -34,25 +34,27 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .logo {
-  width: 68%;
+  width: 60%;
 }
 
-.splashScreen {
+.actionFrame {
+  /* Bg image dimensions: 900px * 630px */
   position : fixed;
-  background-color: #fffde5;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #6e5d5a;
-  border-radius: 10px;
+  background-image: url("./assets/action_frame.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center; 
   margin: auto;
-  padding: auto;
+  padding: 0;
   font-size: 5vh;
   display: flex;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
 }
 
 
 @media only screen and (orientation:portrait){
-  .splashScreen {
+  .actionFrame {
     top : 15%;
     left : 5%;
     width: 90%;
@@ -70,8 +72,8 @@ a:link, a:visited, a:hover, a:active {
   }
 }
 @media only screen and (orientation:landscape){
-  .splashScreen {
-    top : 10%;
+  .actionFrame {
+    top : 25%;
     left : 25%;
     width: 50%;
     height: 70%;
