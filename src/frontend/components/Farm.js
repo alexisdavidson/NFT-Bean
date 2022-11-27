@@ -92,6 +92,14 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
                     </Row>
                 </div>
 
+                <div className="m-0 p-0 d-xl-none">
+                    <Row className="m-0" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
+                        <div className="longMobileButton">
+                            {topText}
+                        </div>
+                    </Row>
+                </div>
+
                 <div className="plantDiv">
                     {plant != 4 ? (
                         <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />

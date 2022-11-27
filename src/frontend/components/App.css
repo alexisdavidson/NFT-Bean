@@ -101,7 +101,7 @@ a:link, a:visited, a:hover, a:active {
   background-image: url("./assets/button_short.png");
   width: 20rem;
   height: 10rem;
-  padding: 4vh;
+  padding: 6vh;
   line-height: 1.6rem;
   margin-top: 8vh;
   z-index: 1;
