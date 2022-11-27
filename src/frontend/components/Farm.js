@@ -5,6 +5,7 @@ import logo from './assets/logo.png'
 import HowTo from './ActionHowTo'
 import Mint from './ActionMint'
 import leftArrow from './assets/left_arrow.svg'
+import plant_0 from './assets/plant_0.png'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
@@ -45,21 +46,27 @@ const Farm = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
             {/* FRAME */}
             <div className="m-0 p-0 container-fluid">
                 {/* BUTTONS */}
-                <Row className="m-0 p-0">
+                <Row className="m-0 p-0" style={{marginTop: "5vh"}}>
                     <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
-                        <Row className="mx-0 p-0" style={{marginTop: "5vh"}}>
+                        <Row className="mx-0 p-0">
                             <div className="shortButton" onClick={() => buttonLinkOnClick('backLink')} >
                                 <Image src={leftArrow} className ="leftArrowImage" />
                                 <a href="/" id="backLink"></a>
                             </div>
                         </Row>
                     </Col>
-                    <Col className="m-0 p-0 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
+                    <Col className="mx-0 p-0 my-4 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
+                        <div className="longButton">
+                            CLICK THE POT TO PLANT THE BEAN
+                        </div>
                     </Col>
                     <Col className="pe-5 ps-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                     </Col>
                 </Row>
 
+                <div className="plantDiv">
+                    <Image src={plant_0} className="plant plant0" />
+                </div>
                 {menu == 1 ? (
                     <HowTo />
                 ) : (

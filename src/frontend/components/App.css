@@ -56,7 +56,7 @@ a:link, a:visited, a:hover, a:active {
   padding-bottom: 10vh;
 }
 
-.actionButton, .shortButton {
+.actionButton, .shortButton, .longButton {
   /* Button image dimensions: 309px * 155px */
   background-image: url("./assets/button.png");
   background-size: 100% 100%;
@@ -80,6 +80,12 @@ a:link, a:visited, a:hover, a:active {
   height: 9rem;
 }
 
+.longButton {
+  background-image: url("./assets/button_long.png");
+  width: 40rem;
+  height: 9rem;
+}
+
 .actionButton:hover, .shortButton:hover {
   cursor: pointer;
 }
@@ -87,6 +93,37 @@ a:link, a:visited, a:hover, a:active {
 .leftArrowImage {
   height: 30%;
 }
+
+
+.plantDiv {
+  position: absolute;
+  bottom: 2%;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  padding: 0;
+}
+
+.plant:hover {
+  cursor: pointer;
+}
+
+.plant0 {
+  width: 20%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media only screen and (orientation:portrait){
   .actionFrame {
