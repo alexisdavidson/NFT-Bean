@@ -41,7 +41,7 @@ a:link, a:visited, a:hover, a:active {
   /* Bg image dimensions: 900px * 630px */
   position : fixed;
   background-image: url("./assets/action_frame.png");
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center; 
   margin: auto;
@@ -52,6 +52,27 @@ a:link, a:visited, a:hover, a:active {
   padding-bottom: 10vh;
 }
 
+.actionButton {
+  /* Button image dimensions: 309px * 155px */
+  background-image: url("./assets/button.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center; 
+  width: 12rem;
+  height: 6rem;
+
+  margin: auto;
+  margin-bottom: 2vh;
+  font-size: 1.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover {
+  cursor: pointer;
+}
 
 @media only screen and (orientation:portrait){
   .actionFrame {
@@ -83,22 +104,6 @@ a:link, a:visited, a:hover, a:active {
 
 ::-webkit-scrollbar {
   display: none;
-}
-
-.mintbutton {
-  width: 12rem;
-  margin: auto;
-  background-color: #fc6666;
-  border-radius: 0.5rem;
-  height: 3rem;
-  font-size: 1.4rem;
-  border-color:#fc6666;
-  margin-bottom: 2vh;
-}
-
-.mintbutton:hover, .mintbutton:active, .mintbutton:focus {
-  background-color: #fc6666;
-  border-color:#fc6666;
 }
 
 .addressButton {
