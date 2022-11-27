@@ -18,7 +18,7 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
     const [topText, setTopText] = useState("")
 
     const loadPlant = async () => {
-        setPlant(4)
+        setPlant(3)
         setTopText("CLICK THE POT TO PLANT THE BEAN")
     }
 
@@ -65,9 +65,9 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
                 </Row>
             </div>
 
-            <div className="m-0 p-0 container-fluid">
+            <div className="m-0 p-0 container-fluid d-none d-xl-block">
                 {/* BUTTONS */}
-                <Row className="m-0 p-0 d-none d-xl-block" style={{marginTop: "5vh"}}>
+                <Row className="m-0 p-0" style={{marginTop: "5vh"}}>
                     <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                         <Row className="mx-0 p-0">
                             <div className="shortButton" onClick={() => buttonLinkOnClick('backLink')} >
@@ -84,15 +84,10 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
                     <Col className="pe-5 ps-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                     </Col>
                 </Row>
-                <Row className="m-0 p-0 d-xl-none" style={{marginTop: "5vh"}}>
-                    <div className="longMobileButton">
-                        {topText}
-                    </div>
-                </Row>
+            </div>
 
-                <div className="plantDiv">
-                    <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
-                </div>
+            <div className="plantDiv">
+                <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
             </div>
             
 
@@ -103,7 +98,7 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
                 '1': <Mint />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
-                '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
+                '10': <Menu closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
                 }[menu]
             }
         </div>
