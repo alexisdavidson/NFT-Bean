@@ -7,6 +7,7 @@ import menuIcon from './assets/mobile/menu.png'
 import homeIcon from './assets/mobile/home.png'
 import HowTo from './ActionHowTo'
 import Mint from './ActionMint'
+import AboutUs from './ActionAboutUs'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
@@ -112,7 +113,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance }) => {
                     '0': <></>,
                     '1': <Mint />,
                     '2': <HowTo />,
-                    // '3': <AboutUs />,
+                    '3': <AboutUs />,
                     '10': <HowTo />,
                     }[menu]
                 }

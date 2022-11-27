@@ -151,6 +151,10 @@ a:link, a:visited, a:hover, a:active {
   .Farm {
     background-image: url("./assets/mobile/farm.png");
   }
+
+  .MintBg {
+    background-image: url("./assets/mobile/mint_bg.png");
+  }
   
 
   .navbarMobileDiv {
