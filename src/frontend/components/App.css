@@ -8,6 +8,7 @@ body {
   font-family: myFirstFont;
   color: #223c29;
   text-align: center;
+  overflow: hidden;
 }
 
 .Home, .Farm {
@@ -139,6 +140,18 @@ a:link, a:visited, a:hover, a:active {
   width: 20%;
 }
 
+.plant_4 {
+  width: 100%;
+}
+
+.FarmLastPlant{
+  background-image: url("./assets/plant_4.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center; 
+  width: 100%;
+  height: 100%;
+}
 
 
 
@@ -222,6 +235,7 @@ a:link, a:visited, a:hover, a:active {
     /* width: 100%; */
     margin: auto;
     padding: 1vh;
+    width: 350%;
   }
 }
 

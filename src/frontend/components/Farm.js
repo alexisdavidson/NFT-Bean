@@ -17,6 +17,11 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
     const [countdown, setCountdown] = useState(0)
     const [topText, setTopText] = useState("")
 
+    const checkClickLastPlant = () => {
+        if (plant == 4)
+            plantButton()
+    }
+
     const loadPlant = async () => {
         setPlant(4)
         setTopText("CLICK THE POT TO PLANT THE BEAN")
@@ -52,55 +57,61 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
 
     return (
         <div className="m-0 p-0 Farm">
-            
-            {/* NAVBAR */}
-            <div className="navbarMobileDiv d-xl-none"> 
-                <Row className="menuMobileCol">
-                    <Col className="col-6 homeMobileCol">
-                        <Image src={homeIcon} className = "homeMobileImage"  onClick={() => {closeMenu(); buttonLinkOnClick('backLink')}} />
-                    </Col>
-                    <Col className="col-6 menuMobileCol">
-                        <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
-                    </Col>
-                </Row>
-            </div>
+            {/* <div className="m-0 p-0 FarmLastPlant"  onClick={() => checkClickLastPlant()}> */}
+            <div className={ "m-0 p-0 " + (plant == 4 ? "FarmLastPlant" : "")} onClick={() => checkClickLastPlant()}>
+                {/* NAVBAR */}
+                <div className="navbarMobileDiv d-xl-none"> 
+                    <Row className="menuMobileCol">
+                        <Col className="col-6 homeMobileCol">
+                            <Image src={homeIcon} className = "homeMobileImage"  onClick={() => {closeMenu(); buttonLinkOnClick('backLink')}} />
+                        </Col>
+                        <Col className="col-6 menuMobileCol">
+                            <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
+                        </Col>
+                    </Row>
+                </div>
 
-            <div className="m-0 p-0 container-fluid d-none d-xl-block">
-                {/* BUTTONS */}
-                <Row className="m-0 p-0" style={{marginTop: "5vh"}}>
-                    <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
-                        <Row className="mx-0 p-0">
-                            <div className="shortButton" onClick={() => buttonLinkOnClick('backLink')} >
-                                <Image src={leftArrow} className ="leftArrowImage" />
-                                <a href="/" id="backLink"></a>
+                <div className="m-0 p-0 container-fluid d-none d-xl-block">
+                    {/* BUTTONS */}
+                    <Row className="m-0 p-0" style={{marginTop: "5vh"}}>
+                        <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
+                            <Row className="mx-0 p-0">
+                                <div className="shortButton" onClick={() => buttonLinkOnClick('backLink')} >
+                                    <Image src={leftArrow} className ="leftArrowImage" />
+                                    <a href="/" id="backLink"></a>
+                                </div>
+                            </Row>
+                        </Col>
+                        <Col className="mx-0 p-0 my-4 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
+                            <div className="longButton">
+                                {topText}
                             </div>
-                        </Row>
-                    </Col>
-                    <Col className="mx-0 p-0 my-4 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
-                        <div className="longButton">
-                            {topText}
-                        </div>
-                    </Col>
-                    <Col className="pe-5 ps-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
-                    </Col>
-                </Row>
-            </div>
+                        </Col>
+                        <Col className="pe-5 ps-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
+                        </Col>
+                    </Row>
+                </div>
 
-            <div className="plantDiv">
-                <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
-            </div>
-            
+                <div className="plantDiv">
+                    {plant != 4 ? (
+                        <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
+                    ) : (
+                        <></>
+                    )}
+                </div>
+                
 
-            {/* FRAME */}
-            {
+                {/* FRAME */}
                 {
-                '0': <></>,
-                '1': <Mint />,
-                '2': <HowTo />,
-                '3': <AboutUs />,
-                '10': <Menu closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
-                }[menu]
-            }
+                    {
+                    '0': <></>,
+                    '1': <Mint />,
+                    '2': <HowTo />,
+                    '3': <AboutUs />,
+                    '10': <Menu closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
+                    }[menu]
+                }
+            </div>
         </div>
     );
 }
