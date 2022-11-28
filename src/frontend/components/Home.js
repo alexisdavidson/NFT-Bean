@@ -20,17 +20,6 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMe
         ex.click();
     }
 
-    const mintButton = async () => {
-        // Connect
-        if (account == null) {
-            await web3Handler();
-            return;
-        }
-
-        console.log("triggerMint");
-        await nft.mint(1)
-    }
-
     return (
         <div className="m-0 p-0 Home">
             {/* LOGO */}
@@ -99,7 +88,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMe
             {
                 {
                 '0': <></>,
-                '1': <Mint />,
+                '1': <Mint web3Handler={web3Handler} loading={loading} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
                 '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,

@@ -40,6 +40,7 @@ function App() {
 
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    
     setBalance(await nft.balanceOf(accounts[0]))
     setAccount(accounts[0])
   }
@@ -64,7 +65,7 @@ function App() {
     const signer = provider.getSigner()
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
-    const supplyLeftTemp = totalSupply - await nft.currentToken()
+    const supplyLeftTemp = totalSupply - await nft.totalSupply()
     console.log("tickets left: " + supplyLeftTemp)
     setSupplyLeft(supplyLeftTemp)
     listenToEvents(nft)

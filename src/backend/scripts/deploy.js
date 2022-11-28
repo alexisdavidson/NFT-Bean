@@ -13,15 +13,21 @@ async function main() {
   // const whitelistedAddresses = []; // mainnet
 
   // const whitelistRoot = "0xbc31375dd73e024b8d6b153e29ec5567ba006493bdac3e2099d4f347c3309d06" // goerli
-  const whitelistRoot = "0xc7edeb3be27541bbaa4ae0c4e4391bda1d3043fdc5db9c1aa6559917bd19d028" // mainnet
+  // const whitelistRoot = "0xc7edeb3be27541bbaa4ae0c4e4391bda1d3043fdc5db9c1aa6559917bd19d028" // mainnet
   
   const NFT = await ethers.getContractFactory("NFT");
-  const nft = await NFT.deploy(whitelistRoot);
+  const nft = await NFT.deploy();
   console.log("NFT contract address", nft.address)
-  
   saveFrontendFiles(nft, "NFT");
 
-  console.log("Frontend files saved")
+  const Planting = await ethers.getContractFactory("Planting");
+  const planting = await Planting.deploy(nft.address);
+  console.log("Planting contract address", planting.address)
+  saveFrontendFiles(planting, "Planting");
+  
+  nft.setPlantingAddress(planting.address);
+
+  console.log("setPlantingAddress called")
 }
 
 function saveFrontendFiles(contract, name) {

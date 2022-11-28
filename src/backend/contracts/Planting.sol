@@ -3,8 +3,11 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./NFT.sol";
 
 contract Planting is Ownable {
+    NFT nft;
+
     struct Plant {
         uint256 phase;
         uint256 timestampPhaseStarted;
@@ -16,7 +19,9 @@ contract Planting is Ownable {
 
     event PlantingSuccessful(address user);
 
-    constructor() {
+    constructor(address _nftAddress) {
+        nft = NFT(_nftAddress);
+
         phaseDuration[0] = 0; // Can start planting right away
         phaseDuration[1] = 4 * 3600; // 4 Hours
         phaseDuration[2] = 18 * 3600; // 18 Hours
@@ -24,9 +29,12 @@ contract Planting is Ownable {
         phaseDuration[4] = 96 * 3600; // 96 Hours
     }
 
-    function plant() public {
+    function plant(uint256 _tokenId) public {
+        require(nft.ownerOf(_tokenId) == msg.sender, "You don't own this bean!");
         require(currentPhaseFinished(msg.sender), "The current growing phase of your plant is not finished yet!");
         require(plantPerUser[msg.sender].phase < lastPhase, "Your plant already reached maximum growth!");
+
+        nft.burn(_tokenId);
 
         plantPerUser[msg.sender].phase += 1;
         plantPerUser[msg.sender].timestampPhaseStarted = block.timestamp;

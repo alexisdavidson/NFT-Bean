@@ -8,7 +8,7 @@ describe("NFT & Planting", async function() {
     let deployer, addr1, addr2, nft
     let teamWallet = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     let whitelist = []
-    let price = 0.01
+    let price = 0.08
 
     beforeEach(async function() {
         // Get contract factories
@@ -21,7 +21,8 @@ describe("NFT & Planting", async function() {
 
         // Deploy contracts
         nft = await NFT.deploy();
-        planting = await Planting.deploy();
+        planting = await Planting.deploy(nft.address);
+        nft.setPlantingAddress(planting.address);
     });
 
     describe("Deployment", function() {
@@ -42,9 +43,14 @@ describe("NFT & Planting", async function() {
 
             await nft.connect(addr1).mint(1, { value: toWei(price)});
             expect(await nft.balanceOf(addr1.address)).to.equal(1);
+            expect((await nft.getTokenIdsByAddress(addr1.address))[0]).to.equal(1);
+            expect((await nft.getTokenIdsByAddress(addr1.address)).length).to.equal(1);
 
             await nft.connect(addr2).mint(2, { value: toWei(price * 2)});
             expect(await nft.balanceOf(addr2.address)).to.equal(2);
+            expect((await nft.getTokenIdsByAddress(addr2.address))[0]).to.equal(2);
+            expect((await nft.getTokenIdsByAddress(addr2.address))[1]).to.equal(3);
+            expect((await nft.getTokenIdsByAddress(addr2.address)).length).to.equal(2);
 
             await expect(nft.connect(addr3).mint(3, { value: toWei(price * 3)})).to.be.revertedWith('Each address may only mint x NFTs!');
         })
@@ -78,65 +84,73 @@ describe("NFT & Planting", async function() {
             expect(currentPlant.phase).to.equal(0)
             expect(currentPlant.timestampPhaseStarted).to.equal(0)
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(true)
+            await nft.connect(deployer).setMintEnabled(true);
 
             // 1st plant
-            await planting.connect(addr1).plant()
+            await nft.connect(addr2).mint(1, { value: toWei(price)});
+            await expect(planting.connect(addr1).plant(1)).to.be.revertedWith("You don't own this bean!");
+            await nft.connect(addr1).mint(1, { value: toWei(price)});
+            await planting.connect(addr1).plant(2)
             currentPlant = await planting.getPlant(addr1.address)
             let currentTimestamp = await helpers.time.latest()
             expect(currentPlant.phase).to.equal(1)
             expect(currentPlant.timestampPhaseStarted).to.equal(currentTimestamp)
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
             
+            await nft.connect(addr1).mint(1, { value: toWei(price)});
             await helpers.time.increase(3 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
-            await expect(planting.connect(addr1).plant()).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
+            await expect(planting.connect(addr1).plant(3)).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
             await helpers.time.increase(1 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(true)
             
             // 2nd plant
-            await planting.connect(addr1).plant()
+            await planting.connect(addr1).plant(3)
             currentPlant = await planting.getPlant(addr1.address)
             currentTimestamp = await helpers.time.latest()
             expect(currentPlant.phase).to.equal(2)
             expect(currentPlant.timestampPhaseStarted).to.equal(currentTimestamp)
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
             
+            await nft.connect(addr1).mint(1, { value: toWei(price)});
             await helpers.time.increase(17 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
-            await expect(planting.connect(addr1).plant()).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
+            await expect(planting.connect(addr1).plant(4)).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
             await helpers.time.increase(1 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(true)
 
             // 3rd plant
-            await planting.connect(addr1).plant()
+            await planting.connect(addr1).plant(4)
             currentPlant = await planting.getPlant(addr1.address)
             currentTimestamp = await helpers.time.latest()
             expect(currentPlant.phase).to.equal(3)
             expect(currentPlant.timestampPhaseStarted).to.equal(currentTimestamp)
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
             
+            await nft.connect(addr1).mint(1, { value: toWei(price)});
             await helpers.time.increase(47 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
-            await expect(planting.connect(addr1).plant()).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
+            await expect(planting.connect(addr1).plant(5)).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
             await helpers.time.increase(1 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(true)
 
             // 4th plant
-            await planting.connect(addr1).plant()
+            await planting.connect(addr1).plant(5)
             currentPlant = await planting.getPlant(addr1.address)
             currentTimestamp = await helpers.time.latest()
             expect(currentPlant.phase).to.equal(4)
             expect(currentPlant.timestampPhaseStarted).to.equal(currentTimestamp)
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
             
+            await nft.connect(addr1).mint(1, { value: toWei(price)});
             await helpers.time.increase(95 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
-            await expect(planting.connect(addr1).plant()).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
+            await expect(planting.connect(addr1).plant(6)).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
             await helpers.time.increase(1 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(true)
 
             // 5th plant
-            await expect(planting.connect(addr1).plant()).to.be.revertedWith('Your plant already reached maximum growth!');
+            await expect(planting.connect(addr1).plant(6)).to.be.revertedWith('Your plant already reached maximum growth!');
             
             // Different user
             currentPlant = await planting.getPlant(addr2.address)
