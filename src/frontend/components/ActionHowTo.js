@@ -6,10 +6,10 @@ const HowTo = () => {
 
     return (
         <Row className="actionFrame">
-            <Row className="m-0 p-0">
-                <h2 className="">HOW TO BEANSTALKER?</h2>
+            <Row className="mx-auto textFrame">
+                <div className="">HOW TO BEANSTALKER?</div>
             </Row>
-            <Row className="mx-auto mt-0 mb-4">
+            <Row className="mx-auto mt-0 mb-4 textFrame">
                 <div className="">1. PLANT THE BEAN 
                                 <br/>2. CHECK THE GROWTH PROGRESS 
                                 <br/>3. CLIMB THE BEANSTALK 
@@ -18,8 +18,8 @@ const HowTo = () => {
                                 <br/>6. LOOT THE TREASURE 
                                 <br/>7. PROCEED TO THE NEXT CHAPTER</div>
             </Row>
-            <Row className="mx-auto mt-0 mb-4">
-                <div className="">BEANSTALKER IS A REWRITE BASED ON JACK & THE BEANSTALK</div>
+            <Row className="mx-auto mt-0 mb-4 psFrame">
+                <div className="psFrame">BEANSTALKER IS A REWRITE BASED ON JACK & THE BEANSTALK</div>
             </Row>
         </Row>
     );
