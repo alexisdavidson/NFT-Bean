@@ -12,7 +12,7 @@ import AboutUs from './ActionAboutUs'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMenu, menu }) => {
+const Farm = ({ web3Handler, planting, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
     const [plant, setPlant] = useState(0)
     const [countdown, setCountdown] = useState(0)
     const [topText, setTopText] = useState("")
@@ -113,7 +113,8 @@ const Farm = ({ web3Handler, planting, account, nft, balance, closeMenu,toggleMe
                 {
                     {
                     '0': <></>,
-                    '1': <Mint />,
+                    '1': <Mint web3Handler={web3Handler} loading={loading} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} 
+                            changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} />,
                     '2': <HowTo />,
                     '3': <AboutUs />,
                     '10': <Menu closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,

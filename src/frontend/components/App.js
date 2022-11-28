@@ -12,6 +12,8 @@ import { ethers } from 'ethers'
 
 import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
+import PlantingAbi from '../contractsData/Planting.json'
+import PlantingAddress from '../contractsData/Planting-address.json'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
@@ -23,8 +25,28 @@ function App() {
   const [account, setAccount] = useState(null)
   const [balance, setBalance] = useState(0)
   const [supplyLeft, setSupplyLeft] = useState(totalSupply)
+  const [price, setPrice] = useState(0.008)
   const [nft, setNFT] = useState({})
+  const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
+  const [quantity, setQuantity] = useState(1)
+  
+  const changeQuantity = (direction) => {
+      if (quantity + direction < 1)
+          setQuantity(1)
+      else if (quantity + direction > 2)
+          setQuantity(2)
+      else
+          setQuantity(quantity + direction)
+  }
+
+  const mintButton = async () => {
+      console.log("mint button")
+      let price = fromWei(await nft.getPrice()) * quantity;
+      console.log("Price: " + price + " wei");
+      console.log("Quantity: " + quantity)
+      await nft.mint(quantity, { value: toWei(price) });
+  }
 
   const closeMenu = () => {
       toggleMenu(0)
@@ -65,11 +87,14 @@ function App() {
     const signer = provider.getSigner()
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
+    const planting = new ethers.Contract(PlantingAddress.address, PlantingAbi.abi, signer)
     const supplyLeftTemp = totalSupply - await nft.totalSupply()
     console.log("tickets left: " + supplyLeftTemp)
     setSupplyLeft(supplyLeftTemp)
+    setPrice(fromWei(await nft.getPrice()))
     listenToEvents(nft)
     setNFT(nft)
+    setPlanting(planting)
     setLoading(false)
   }
 
@@ -87,13 +112,15 @@ function App() {
         {/* <Navigation /> */}
         <Routes>
           <Route path="/" element={
-            <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
-              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu}>
+            <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting}
+              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+              changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
             </Home>
           } />
           <Route path="/farm" element={
-            <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} 
-              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu}>
+            <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting}
+              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+              changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
             </Farm>
           } />
         </Routes>

@@ -5,25 +5,7 @@ import { Image, Row, Col, Button } from 'react-bootstrap'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const HowTo = ({web3Handler, nft, account, balance, loading, supplyLeft}) => {
-    const [quantity, setQuantity] = useState(1)
-    
-    const changeQuantity = (direction) => {
-        if (quantity + direction < 1)
-            setQuantity(1)
-        else if (quantity + direction > 2)
-            setQuantity(2)
-        else
-            setQuantity(quantity + direction)
-    }
-
-    const mintButton = async () => {
-        console.log("mint button")
-        let price = fromWei(await nft.getPrice()) * quantity;
-        console.log("Price: " + price + " wei");
-        console.log("Quantity: " + quantity)
-        await nft.mint(quantity, { value: toWei(price) });
-    }
+const HowTo = ({web3Handler, nft, account, balance, loading, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
 
     return (
         <Row className="actionFrame">
@@ -31,10 +13,10 @@ const HowTo = ({web3Handler, nft, account, balance, loading, supplyLeft}) => {
                 <div className="">MINT A BEAN & START A MAGICAL JOURNEY</div>
             </Row>
             <Row className="mx-auto mt-0 mb-4 mintFrame">
-                <div className="">0.008 ETH PER BEAN. MAXIMUM 2</div>
+                <div className="">{price} ETH PER BEAN. MAXIMUM 2</div>
             </Row>
             <Row className="mx-auto mt-0 mb-4 ticketsFrame">
-                <div className="">5000/5000 BEANS REMAINING</div>
+                <div className="">{supplyLeft}/5000 BEANS REMAINING</div>
             </Row>
             <Row className="mx-auto mt-0 mb-4 ticketsFrame">
                 {account ? (
@@ -55,14 +37,14 @@ const HowTo = ({web3Handler, nft, account, balance, loading, supplyLeft}) => {
             </Row>
             <Row className="mx-auto mt-0 mb-4 mintFrame">
                 {account ? (
-                        <div className="actionButton" onClick={mintButton} >CONNECT</div>
+                        <div className="actionButton" onClick={mintButton} >MINT NOW</div>
                     ) : (
                         <div className="actionButton" onClick={web3Handler} >CONNECT</div>
                     )}
             </Row>
             <Row className="mx-auto mt-0 mb-4 ticketsFrame">
                 {account ? (
-                    <div className="addressText">{account}</div>
+                    <div className="addressText">{account.slice(0, 9) + '...' + account.slice(34, 42)}</div>
                 ) : (
                     <></>
                 )}

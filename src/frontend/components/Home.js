@@ -13,7 +13,7 @@ import AboutUs from './ActionAboutUs'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu }) => {
+const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
 
     const buttonLinkOnClick = (elementId) => {
         var ex = document.getElementById(elementId);
@@ -88,7 +88,8 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMe
             {
                 {
                 '0': <></>,
-                '1': <Mint web3Handler={web3Handler} loading={loading} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} />,
+                '1': <Mint web3Handler={web3Handler} loading={loading} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} 
+                        changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
                 '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,

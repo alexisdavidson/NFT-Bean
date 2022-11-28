@@ -157,8 +157,8 @@ a:link, a:visited, a:hover, a:active {
   font-size: 2rem;
   text-align: left;
   line-height: 2rem;
-  padding-left: 20vh;
-  padding-right: 20vh;
+  padding-left: 10vh;
+  padding-right: 10vh;
 }
 
 .mintFrame {
