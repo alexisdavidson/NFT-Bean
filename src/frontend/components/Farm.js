@@ -66,7 +66,7 @@ const Farm = ({ web3Handler, planting, loading, account, nft, supplyLeft, balanc
                             <Image src={homeIcon} className = "homeMobileImage"  onClick={() => {closeMenu(); buttonLinkOnClick('backLink')}} />
                         </Col>
                         <Col className="col-6 menuMobileCol">
-                            <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} />
+                            {/* <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} /> */}
                         </Col>
                     </Row>
                 </div>

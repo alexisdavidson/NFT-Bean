@@ -89,7 +89,8 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMe
                 {
                 '0': <></>,
                 '1': <Mint web3Handler={web3Handler} loading={loading} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} 
-                        changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} />,
+                        changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
+                        buttonLinkOnClick={buttonLinkOnClick} />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
                 '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,

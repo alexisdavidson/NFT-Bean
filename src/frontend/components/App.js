@@ -30,6 +30,7 @@ function App() {
   const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
+  const [quantityMint, setQuantityMint] = useState(1)
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -45,6 +46,7 @@ function App() {
       let price = fromWei(await nft.getPrice()) * quantity;
       console.log("Price: " + price + " wei");
       console.log("Quantity: " + quantity)
+      setQuantityMint(quantity)
       await nft.mint(quantity, { value: toWei(price) });
   }
 
@@ -78,8 +80,8 @@ function App() {
 
   const mintFinished = () => {
       console.log("mintFinished")
-      setSupplyLeft(supplyLeft - 1)
-      setBalance(balance + 1)
+      setSupplyLeft(supplyLeft - quantityMint)
+      setBalance(balance + quantityMint)
   }
 
   const loadContracts = async () => {
