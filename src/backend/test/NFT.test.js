@@ -43,14 +43,9 @@ describe("NFT & Planting", async function() {
 
             await nft.connect(addr1).mint(1, { value: toWei(price)});
             expect(await nft.balanceOf(addr1.address)).to.equal(1);
-            expect((await nft.getTokenIdsByAddress(addr1.address))[0]).to.equal(1);
-            expect((await nft.getTokenIdsByAddress(addr1.address)).length).to.equal(1);
 
             await nft.connect(addr2).mint(2, { value: toWei(price * 2)});
             expect(await nft.balanceOf(addr2.address)).to.equal(2);
-            expect((await nft.getTokenIdsByAddress(addr2.address))[0]).to.equal(2);
-            expect((await nft.getTokenIdsByAddress(addr2.address))[1]).to.equal(3);
-            expect((await nft.getTokenIdsByAddress(addr2.address)).length).to.equal(2);
 
             await expect(nft.connect(addr3).mint(3, { value: toWei(price * 3)})).to.be.revertedWith('Each address may only mint x NFTs!');
         })

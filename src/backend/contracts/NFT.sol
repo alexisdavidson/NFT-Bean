@@ -16,8 +16,6 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     bool public mintEnabled;
     uint256 public price = 0.08 ether;
 
-    mapping(address => uint256[]) tokenIdsByAddress;
-
     event MintSuccessful(address user);
 
     constructor() ERC721A("Beanstalker", "BEAN") { }
@@ -27,12 +25,6 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
         require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
         require(balanceOf(msg.sender) + quantity <= amountMintPerAccount, 'Each address may only mint x NFTs!');
         require(msg.value >= getPrice() * quantity, "Not enough ETH sent; check price!");
-        
-        uint256 _nextTokenId = totalSupply() + 1;
-        for(uint256 i = 0; i < quantity;) {
-            tokenIdsByAddress[msg.sender].push(_nextTokenId + i);
-            unchecked { ++i; }
-        }
 
         _mint(msg.sender, quantity);
 
@@ -106,28 +98,6 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
 
     function burn(uint256 _tokenId) public {
         require(plantingAddress == msg.sender, "You don't have the right to burn this NFT");
-        require(tokenIdsByAddress[msg.sender].length > 0, "This user doesn't own any NFT");
-        
-        address _nftOwner = ownerOf(_tokenId);
-        uint256 _tokenIndex = 0;
-        bool _tokenFound;
-        for(uint256 i = 0; i < tokenIdsByAddress[msg.sender].length;) {
-            if (tokenIdsByAddress[msg.sender][i] == _tokenId) {
-                _tokenIndex = i;
-                _tokenFound = true;
-            }
-            unchecked { ++i; }
-        }
-
-        require(_tokenFound, "This NFT is not listed for this user");
-
-        tokenIdsByAddress[msg.sender][0] = tokenIdsByAddress[msg.sender][_tokenIndex];
-        tokenIdsByAddress[msg.sender].pop();
-
         _burn(_tokenId);
-    }
-
-    function getTokenIdsByAddress(address _address) public view returns(uint256[] memory) {
-        return tokenIdsByAddress[_address];
     }
 }
