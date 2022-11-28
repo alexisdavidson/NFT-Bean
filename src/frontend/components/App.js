@@ -31,9 +31,8 @@ function App() {
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [quantityMint, setQuantityMint] = useState(1)
-  const [plant, setPlant] = useState(0)
-  const [plantObject, setPlantObject] = useState({})
   const [menuFarm, setMenuFarm] = useState(false)
+  const [beanToUse, setBeanToUse] = useState(0)
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -125,7 +124,7 @@ function App() {
           <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
             supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
             changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
-            plant={plant} plantObject={plantObject}>
+            beanToUse={beanToUse}>
           </Farm>
         )}
       </div>

@@ -13,9 +13,11 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 4
 
-const Farm = ({ web3Handler, planting, plantObject, plant, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
+const Farm = ({ beanToUse, web3Handler, planting, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
     const [countdown, setCountdown] = useState(0)
     const [topText, setTopText] = useState("")
+    const [plant, setPlant] = useState(0)
+    const [plantObject, setPlantObject] = useState({})
 
     // click anywhere on screen for last plant
     const checkClickLastPlant = () => {
@@ -23,31 +25,47 @@ const Farm = ({ web3Handler, planting, plantObject, plant, loading, account, nft
             plantButton()
     }
 
+    const updateCountdown = () => {
+        if (plantObject[1] > 0 && false)
+            setCountdown(plantObject[1])
+    }
+
     const loadPlant = async () => {
         console.log("planting.address: " + planting.address)
         const plantObjectTemp = await planting.getPlant(account)
         console.log("plantObjectTemp: " + plantObjectTemp)
-        // setPlant(plantObjectTemp.phase)
-        // setPlantObject(plantObjectTemp)
+        setPlant(plantObjectTemp.phase)
+        setPlantObject(plantObjectTemp)
         
+        let cooldownDone = false
+        updateCountdown()
+
         if(balance == 0 && plant < 4) {
             setTopText("YOU DON'T HAVE A BEAN.")
         }
-        else if(plant == 0) {
+        else if(plantObjectTemp[0] == 0) {
             setTopText("CLICK THE POT TO PLANT THE BEAN")
         }
-        else if(plant == 1) {
+        else if(plantObjectTemp[0] == 1) {
             setTopText("BEAN PLANTED. NEXT STAGE IN 06:00:00")
+            if (cooldownDone)
+                setTopText("IT'S SPROUTING. CLICK THE POT TO CONTINUE GROWING")
         }
-        else if(plant == 2) {
-            setTopText("IT'S SPROUTING. CLICK THE POT TO CONTINUE GROWING")
+        else if(plantObjectTemp[0] == 2) {
+            setTopText("BEAN PLANTED. NEXT STAGE IN 18:00:00")
+            if (cooldownDone)
+                setTopText("NICE SAPLING. CLICK THE POT TO CONTINUE GROWING")
         }
-        else if(plant == 3) {
-            setTopText("NEXT STAGE IN 18:00:00")
+        else if(plantObjectTemp[0] == 3) {
+            setTopText("BEAN PLANTED. NEXT STAGE IN 48:00:00")
+            if (cooldownDone)
+                setTopText("LOOKING GOOD. CLICK THE BEANSTALK TO CONTINUE GROWING")
         }
-        // NICE SAPLING. CLICK THE POT TO CONTINUE GROWING
-        // LOOKING GOOD. CLICK THE BEANSTALK TO CONTINUE GROWING
-        // SUCH A MAJESTIC BEANSTALK! CLICK THE BEANSTALK TO CLIMB!
+        else if(plantObjectTemp[0] == 4) {
+            setTopText("BEAN PLANTED. NEXT STAGE IN 96:00:00")
+            if (cooldownDone)
+                setTopText("SUCH A MAJESTIC BEANSTALK! CLICK THE BEANSTALK TO CLIMB!")
+        }
     }
 
     const buttonLinkOnClick = async (elementId) => {
@@ -62,24 +80,38 @@ const Farm = ({ web3Handler, planting, plantObject, plant, loading, account, nft
 
     const plantButton = async () => {
         console.log("plantButton")
-        return
 
-        // Connect
-        if (account == null) {
-            await web3Handler();
-            return;
+        if(balance == 0 && plant < 4) {
+            console.log("YOU DON'T HAVE A BEAN.")
+            return
         }
 
-        //verify bean balance
-        //verify allowance
+        console.log("triggerPlant " + beanToUse);
+        await planting.plant(beanToUse)
+    }
+    
 
-        console.log("triggerPlant");
-        await planting.plant()
+    const listenToEvents = async (nft) => {
+        planting.on("PlantingSuccessful", (user) => {
+            console.log("PlantingSuccessful");
+            console.log(user);
+
+            plantFinished();
+        });
+    }
+
+    const plantFinished = () => {
+        console.log("plantFinished")
+        loadPlant()
     }
     
 
     useEffect(() => {
         loadPlant()
+
+        return () => {
+          planting?.removeAllListeners("PlantingSuccessful");
+        };
     }, [])
 
     return (

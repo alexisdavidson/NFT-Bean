@@ -5,7 +5,7 @@ import { Image, Row, Col, Button } from 'react-bootstrap'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const HowTo = ({web3Handler, nft, account, balance, loading, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
+const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, loading, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
 
     return (
         <Row className="actionFrame">
@@ -47,7 +47,7 @@ const HowTo = ({web3Handler, nft, account, balance, loading, buttonLinkOnClick, 
                         <div className="">YOU HAVE 2 BEANS. PLANT YOUR BEAN & START YOUR MAGICAL JOURNEY TODAY!</div>
                     </Row>
                     <Row className="mx-auto mt-0 mb-4 mintFrame">
-                        <div className="actionButton" onClick={() => buttonLinkOnClick('farmLink')} >GO TO FARM</div>
+                        <div className="actionButton" onClick={async () => {closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}} >GO TO FARM</div>
                     </Row>
                 </>
             )}
