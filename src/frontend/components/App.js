@@ -30,7 +30,7 @@ function App() {
   const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
-  const [quantityMint, setQuantityMint] = useState(1)
+  const quantityMintVar = 1
   const [menuFarm, setMenuFarm] = useState(false)
   const [beanToUse, setBeanToUse] = useState(0)
   
@@ -48,7 +48,7 @@ function App() {
       let price = fromWei(await nft.getPrice()) * quantity;
       console.log("Price: " + price + " wei");
       console.log("Quantity: " + quantity)
-      setQuantityMint(quantity)
+      quantityMintVar = quantity
       await nft.mint(quantity, { value: toWei(price) });
   }
 
@@ -99,10 +99,11 @@ function App() {
     });
   }
 
-  const mintFinished = () => {
-      console.log("mintFinished")
-      setSupplyLeft(supplyLeft - quantityMint)
-      setBalance(balance + quantityMint)
+  const mintFinished = async () => {
+      console.log("mintFinished, quantityMintVar: " + quantityMintVar)
+      setSupplyLeft(supplyLeft - quantityMintVar)
+      setBalance(balance + quantityMintVar)
+      setBeanToUse(await nft.totalSupply())
   }
 
   const loadContracts = async () => {

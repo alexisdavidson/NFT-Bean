@@ -50,7 +50,7 @@ const Home = ({ web3Handler, setMenuFarm, account, nft, supplyLeft, balance, clo
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => {setMenuFarm(true)}} >
+                            <div className="actionButton" onClick={async () => {closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}} >
                                 FARM
                             </div>
                         </Row>
