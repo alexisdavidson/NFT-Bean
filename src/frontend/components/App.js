@@ -14,6 +14,7 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import PlantingAbi from '../contractsData/Planting.json'
 import PlantingAddress from '../contractsData/Planting-address.json'
+import configContract from "./configContract.json";
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
@@ -21,7 +22,6 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const totalSupply = 5000
 
 function App() {
-  const [loading, setLoading] = useState(true)
   const [account, setAccount] = useState(null)
   const [balance, setBalance] = useState(0)
   const [supplyLeft, setSupplyLeft] = useState(totalSupply)
@@ -69,6 +69,25 @@ function App() {
     
     setBalance(await nft.balanceOf(accounts[0]))
     setAccount(accounts[0])
+    loadOpenSeaItems(accounts[0], nft)
+  }
+
+  const loadOpenSeaItems = async (acc, nft) => {
+    let items = await fetch(`${configContract.OPENSEA_API_TESTNETS}/assets?owner=${acc}&asset_contract_address=${nft.address}&format=json`)
+    .then((res) => res.json())
+    .then((res) => {
+      return res.assets
+    })
+    .catch((e) => {
+      console.error(e)
+      console.error('Could not talk to OpenSea')
+      return null
+    })
+
+    if (items != null && items.length > 0) {
+      console.log("bean to use: " + items[0].token_id)
+      setBeanToUse(items[0].token_id)
+    }
   }
 
   const listenToEvents = async (nft) => {
@@ -100,7 +119,6 @@ function App() {
     setNFT(nft)
 
     setPlanting(planting)
-    setLoading(false)
   }
   
 
@@ -116,12 +134,12 @@ function App() {
     <BrowserRouter>
       <div className="App" id="wrapper">
         {!menuFarm ? (
-            <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+            <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
               supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
               changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
             </Home>
         ) : (
-          <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+          <Farm web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
             supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
             changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
             beanToUse={beanToUse}>

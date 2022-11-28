@@ -86,6 +86,7 @@ describe("NFT & Planting", async function() {
             await expect(planting.connect(addr1).plant(1)).to.be.revertedWith("You don't own this bean!");
             await nft.connect(addr1).mint(1, { value: toWei(price)});
             await planting.connect(addr1).plant(2)
+            expect(await nft.balanceOf(addr1.address)).to.equal(0);
             currentPlant = await planting.getPlant(addr1.address)
             let currentTimestamp = await helpers.time.latest()
             expect(currentPlant.phase).to.equal(1)

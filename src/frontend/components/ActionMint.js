@@ -5,7 +5,7 @@ import { Image, Row, Col, Button } from 'react-bootstrap'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, loading, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
+const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
 
     return (
         <Row className="actionFrame">
