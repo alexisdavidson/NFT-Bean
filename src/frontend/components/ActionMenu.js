@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Image, Row, Col, Button } from 'react-bootstrap'
 
-const Menu = ({closeMenu, toggleMenu, buttonLinkOnClick}) => {
+const Menu = ({web3Handler, account, closeMenu, toggleMenu, buttonLinkOnClick, setMenuFarm}) => {
 
     return (
         <Row className="actionFrame">
             <Row className="m-0 p-0">
                 <div className="mobileMenuButton" onClick={() => toggleMenu(1)}>MINT A BEAN</div>
-                <div className="mobileMenuButton" onClick={() => {closeMenu == null ? buttonLinkOnClick('farmLink') : closeMenu()}}>FARM</div>
+                <div className="mobileMenuButton" onClick={async () => { closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}}>FARM</div>
                 <div className="mobileMenuButton" onClick={() => toggleMenu(2)}>HOW TO</div>
                 <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('twitterLink')}>TWITTER</div>
                 <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('discordLink')}>DISCORD</div>

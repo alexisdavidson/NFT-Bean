@@ -11,25 +11,52 @@ import AboutUs from './ActionAboutUs'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
+const lastPlantId = 4
 
-const Farm = ({ web3Handler, planting, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
-    const [plant, setPlant] = useState(0)
+const Farm = ({ web3Handler, planting, plantObject, plant, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
     const [countdown, setCountdown] = useState(0)
     const [topText, setTopText] = useState("")
 
+    // click anywhere on screen for last plant
     const checkClickLastPlant = () => {
-        if (plant == 4)
+        if (plant == lastPlantId)
             plantButton()
     }
 
     const loadPlant = async () => {
-        setPlant(4)
-        setTopText("CLICK THE POT TO PLANT THE BEAN")
+        console.log("planting.address: " + planting.address)
+        const plantObjectTemp = await planting.getPlant(account)
+        console.log("plantObjectTemp: " + plantObjectTemp)
+        // setPlant(plantObjectTemp.phase)
+        // setPlantObject(plantObjectTemp)
+        
+        if(balance == 0 && plant < 4) {
+            setTopText("YOU DON'T HAVE A BEAN.")
+        }
+        else if(plant == 0) {
+            setTopText("CLICK THE POT TO PLANT THE BEAN")
+        }
+        else if(plant == 1) {
+            setTopText("BEAN PLANTED. NEXT STAGE IN 06:00:00")
+        }
+        else if(plant == 2) {
+            setTopText("IT'S SPROUTING. CLICK THE POT TO CONTINUE GROWING")
+        }
+        else if(plant == 3) {
+            setTopText("NEXT STAGE IN 18:00:00")
+        }
+        // NICE SAPLING. CLICK THE POT TO CONTINUE GROWING
+        // LOOKING GOOD. CLICK THE BEANSTALK TO CONTINUE GROWING
+        // SUCH A MAJESTIC BEANSTALK! CLICK THE BEANSTALK TO CLIMB!
     }
 
-    const buttonLinkOnClick = (elementId) => {
+    const buttonLinkOnClick = async (elementId) => {
         console.log("buttonLinkOnClick: " + elementId)
         var ex = document.getElementById(elementId);
+
+        if (elementId == "farmLink" && account == null)
+            await web3Handler();
+
         ex.click();
     }
 
@@ -58,7 +85,7 @@ const Farm = ({ web3Handler, planting, loading, account, nft, supplyLeft, balanc
     return (
         <div className="m-0 p-0 Farm">
             {/* <div className="m-0 p-0 FarmLastPlant"  onClick={() => checkClickLastPlant()}> */}
-            <div className={ "m-0 p-0 " + (plant == 4 ? "FarmLastPlant" : "")} onClick={() => checkClickLastPlant()}>
+            <div className={ "m-0 p-0 " + (plant == lastPlantId ? "FarmLastPlant" : "")} onClick={() => checkClickLastPlant()}>
                 {/* NAVBAR */}
                 <div className="navbarMobileDiv d-xl-none"> 
                     <Row className="menuMobileCol">

@@ -31,6 +31,9 @@ function App() {
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [quantityMint, setQuantityMint] = useState(1)
+  const [plant, setPlant] = useState(0)
+  const [plantObject, setPlantObject] = useState({})
+  const [menuFarm, setMenuFarm] = useState(false)
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -96,9 +99,11 @@ function App() {
     setPrice(fromWei(await nft.getPrice()))
     listenToEvents(nft)
     setNFT(nft)
+
     setPlanting(planting)
     setLoading(false)
   }
+  
 
   useEffect(() => {
     loadContracts()
@@ -111,21 +116,18 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App" id="wrapper">
-        {/* <Navigation /> */}
-        <Routes>
-          <Route path="/" element={
-            <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting}
+        {!menuFarm ? (
+            <Home web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
               supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
               changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
             </Home>
-          } />
-          <Route path="/farm" element={
-            <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting}
-              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-              changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
-            </Farm>
-          } />
-        </Routes>
+        ) : (
+          <Farm web3Handler={web3Handler} loading={loading} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+            supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+            changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
+            plant={plant} plantObject={plantObject}>
+          </Farm>
+        )}
       </div>
     </BrowserRouter>
   );

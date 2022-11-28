@@ -13,9 +13,10 @@ import AboutUs from './ActionAboutUs'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
+const Home = ({ web3Handler, setMenuFarm, loading, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
 
-    const buttonLinkOnClick = (elementId) => {
+    const buttonLinkOnClick = async (elementId) => {
+        console.log("buttonLinkOnClick: " + elementId)
         var ex = document.getElementById(elementId);
         ex.click();
     }
@@ -49,9 +50,8 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMe
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => {closeMenu(); buttonLinkOnClick('farmLink')}} >
+                            <div className="actionButton" onClick={() => {setMenuFarm(true)}} >
                                 FARM
-                                <a href="/farm" id="farmLink"></a>
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
@@ -93,7 +93,7 @@ const Home = ({ web3Handler, loading, account, nft, supplyLeft, balance, closeMe
                         buttonLinkOnClick={buttonLinkOnClick} />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
-                '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
+                '10': <Menu web3Handler={web3Handler} account={account} closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick} setMenuFarm={setMenuFarm} />,
                 }[menu]
             }
         </div>
