@@ -6,8 +6,19 @@ const HowTo = () => {
 
     return (
         <Row className="actionFrame">
-            <Row className="mx-auto mt-4 mb-4">
-                {/* <img className="ticketImage m-auto" src={ticket} /> */}
+            <Row className="mx-auto mintFrame">
+                <div className="">MINT A BEAN & START A MAGICAL JOURNEY</div>
+            </Row>
+            <Row className="mx-auto mt-0 mb-4 mintFrame">
+                <div className="">0.008 ETH PER BEAN. MAXIMUM 2</div>
+            </Row>
+            <Row className="mx-auto mt-0 mb-4 ticketsFrame">
+                <div className="">5000/5000 BEANS REMAINING</div>
+            </Row>
+            <Row className="mx-auto mt-0 mb-4 mintFrame">
+                <div className="actionButton" onClick={() => {}} >
+                    CONNECT
+                </div>
             </Row>
             {/* <Row className="mx-auto mt-0 mb-2">
                 <div className="ticketText">{supplyLeft}/5000 Tickets Remaining</div>

@@ -153,12 +153,20 @@ a:link, a:visited, a:hover, a:active {
   height: 100%;
 }
 
-.textFrame {
+.textFrame, .ticketsFrame, .mintFrame {
   font-size: 2rem;
   text-align: left;
   line-height: 2rem;
   padding-left: 20vh;
   padding-right: 20vh;
+}
+
+.mintFrame {
+  text-align: center;
+}
+.ticketsFrame {
+  color: #5fa459;
+  text-align: center; 
 }
 
 .psFrame {
@@ -264,6 +272,12 @@ a:link, a:visited, a:hover, a:active {
     padding-right: 2vh;
   }
 
+  .mintFrame, .ticketsFrame {
+    text-align: center;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    font-size: 1.8rem;
+  }
 
 }
 
