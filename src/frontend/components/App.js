@@ -7,7 +7,7 @@ import './App.css';
 import Home from './Home';
 import Farm from './Farm';
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ethers } from 'ethers'
 
 import NFTAbi from '../contractsData/NFT.json'
@@ -30,9 +30,18 @@ function App() {
   const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
-  const quantityMintVar = 1
   const [menuFarm, setMenuFarm] = useState(false)
   const [beanToUse, setBeanToUse] = useState(0)
+  const [amountMinted, setAmountMinted] = useState(0)
+
+  const quantityRef = useRef();
+  quantityRef.current = quantity;
+  const balanceRef = useRef();
+  balanceRef.current = balance;
+  const supplyLeftRef = useRef();
+  supplyLeftRef.current = supplyLeft;
+  const amountMintedRef = useRef();
+  amountMintedRef.current = amountMinted;
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -48,7 +57,6 @@ function App() {
       let price = fromWei(await nft.getPrice()) * quantity;
       console.log("Price: " + price + " wei");
       console.log("Quantity: " + quantity)
-      quantityMintVar = quantity
       await nft.mint(quantity, { value: toWei(price) });
   }
 
@@ -84,10 +92,14 @@ function App() {
       return null
     })
 
+    console.log(items)
+
     if (items != null && items.length > 0) {
       console.log("bean to use: " + items[0].token_id)
       setBeanToUse(items[0].token_id)
     }
+    else 
+      console.log("OpenSea could not find a bean for address " + acc)
   }
 
   const listenToEvents = async (nft) => {
@@ -95,15 +107,15 @@ function App() {
         console.log("MintSuccessful");
         console.log(user);
 
-        mintFinished();
+        mintFinished(nft);
     });
   }
 
-  const mintFinished = async () => {
-      console.log("mintFinished, quantityMintVar: " + quantityMintVar)
-      setSupplyLeft(supplyLeft - quantityMintVar)
-      setBalance(balance + quantityMintVar)
-      setBeanToUse(await nft.totalSupply())
+  const mintFinished = async (nft) => {
+      console.log("mintFinished: " + quantityRef.current)
+      setSupplyLeft(supplyLeftRef.current - quantityRef.current)
+      setBalance(balanceRef.current + quantityRef.current)
+      setBeanToUse(amountMintedRef.current)
   }
 
   const loadContracts = async () => {
@@ -112,14 +124,19 @@ function App() {
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const planting = new ethers.Contract(PlantingAddress.address, PlantingAbi.abi, signer)
-    const supplyLeftTemp = totalSupply - await nft.totalSupply()
+    const amountMintedTemp = parseInt(await nft.totalSupply()) + parseInt(await nft.burnAmount())
+    setAmountMinted(amountMintedTemp)
+    const supplyLeftTemp = totalSupply - amountMintedTemp
     console.log("tickets left: " + supplyLeftTemp)
     setSupplyLeft(supplyLeftTemp)
     setPrice(fromWei(await nft.getPrice()))
+    setBeanToUse(amountMintedTemp)
     listenToEvents(nft)
     setNFT(nft)
-
     setPlanting(planting)
+
+    console.log("nft address: " + nft.address)
+    console.log("planting address: " + planting.address)
   }
   
 

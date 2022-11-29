@@ -36,6 +36,8 @@ const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, bala
         console.log("plantObjectTemp: " + plantObjectTemp)
         setPlant(plantObjectTemp.phase)
         setPlantObject(plantObjectTemp)
+
+        listenToEvents()
         
         let cooldownDone = false
         updateCountdown()
@@ -91,7 +93,7 @@ const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, bala
     }
     
 
-    const listenToEvents = async (nft) => {
+    const listenToEvents = async () => {
         planting.on("PlantingSuccessful", (user) => {
             console.log("PlantingSuccessful");
             console.log(user);
