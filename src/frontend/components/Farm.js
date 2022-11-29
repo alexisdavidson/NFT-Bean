@@ -13,21 +13,86 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 4
 
-const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
+const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
     const [countdown, setCountdown] = useState(0)
-    const [topText, setTopText] = useState("")
     const [plant, setPlant] = useState(0)
     const [plantObject, setPlantObject] = useState({})
+    const [phaseDuration, setPhaseDuration] = useState(0)
+
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
+
+    const getTopText = () => {
+        if (currentTimestamp == 0)
+            return ""
+        
+        let topText = ""
+        let timeleft = getTimeLeft(currentTimestamp, parseInt(plantObject[1]), parseInt(phaseDuration))
+        let cooldownDone = timeleft < 0
+
+        if(balance == 0 && plant < 4) {
+            topText=("YOU DON'T HAVE A BEAN.")
+        }
+        else if(plantObject[0] == 0) {
+            topText=("CLICK THE POT TO PLANT THE BEAN")
+        }
+        else if(plantObject[0] == 1) {
+            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone)
+                topText=("IT'S SPROUTING. CLICK THE POT TO CONTINUE GROWING")
+        }
+        else if(plantObject[0] == 2) {
+            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone)
+                topText=("NICE SAPLING. CLICK THE POT TO CONTINUE GROWING")
+        }
+        else if(plantObject[0] == 3) {
+            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone)
+                topText=("LOOKING GOOD. CLICK THE BEANSTALK TO CONTINUE GROWING")
+        }
+        else if(plantObject[0] == 4) {
+            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone)
+                topText=("SUCH A MAJESTIC BEANSTALK! CLICK THE BEANSTALK TO CLIMB!")
+        }
+
+        return topText
+    }
 
     // click anywhere on screen for last plant
     const checkClickLastPlant = () => {
         if (plant == lastPlantId)
             plantButton()
     }
+  
 
-    const updateCountdown = () => {
-        if (plantObject[1] > 0 && false)
-            setCountdown(plantObject[1])
+    const units = {
+        year: 31536000000,
+        month: 2628000000,
+        day: 86400000,
+        hour: 3600000,
+        minute: 60000,
+        second: 1000,
+    }
+
+    const getTimeLeft = (currentTimestamp, timestampStart, duration) => {
+        const timestampEnd = timestampStart + duration * units.second
+        let timestampRelative = timestampEnd - currentTimestamp
+
+        return timestampRelative
+    }
+
+    const getTimeLeftString = (timestampRelative) => {
+        // 06:00:00
+        const hoursLeft = Math.floor(timestampRelative / units.hour)
+        timestampRelative -= hoursLeft * units.hour
+
+        const minsLeft = Math.floor(timestampRelative / units.minute)
+        timestampRelative -= minsLeft * units.minute
+
+        const secsLeft = Math.floor(timestampRelative / units.second)
+
+        return zeroPad(hoursLeft, 2) + ":" + zeroPad(minsLeft, 2) + ":" + zeroPad(secsLeft, 2) + "";
     }
 
     const loadPlant = async () => {
@@ -36,38 +101,9 @@ const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, bala
         console.log("plantObjectTemp: " + plantObjectTemp)
         setPlant(plantObjectTemp.phase)
         setPlantObject(plantObjectTemp)
+        setPhaseDuration(await planting.phaseDuration(plantObjectTemp.phase))
 
         listenToEvents()
-        
-        let cooldownDone = false
-        updateCountdown()
-
-        if(balance == 0 && plant < 4) {
-            setTopText("YOU DON'T HAVE A BEAN.")
-        }
-        else if(plantObjectTemp[0] == 0) {
-            setTopText("CLICK THE POT TO PLANT THE BEAN")
-        }
-        else if(plantObjectTemp[0] == 1) {
-            setTopText("BEAN PLANTED. NEXT STAGE IN 06:00:00")
-            if (cooldownDone)
-                setTopText("IT'S SPROUTING. CLICK THE POT TO CONTINUE GROWING")
-        }
-        else if(plantObjectTemp[0] == 2) {
-            setTopText("BEAN PLANTED. NEXT STAGE IN 18:00:00")
-            if (cooldownDone)
-                setTopText("NICE SAPLING. CLICK THE POT TO CONTINUE GROWING")
-        }
-        else if(plantObjectTemp[0] == 3) {
-            setTopText("BEAN PLANTED. NEXT STAGE IN 48:00:00")
-            if (cooldownDone)
-                setTopText("LOOKING GOOD. CLICK THE BEANSTALK TO CONTINUE GROWING")
-        }
-        else if(plantObjectTemp[0] == 4) {
-            setTopText("BEAN PLANTED. NEXT STAGE IN 96:00:00")
-            if (cooldownDone)
-                setTopText("SUCH A MAJESTIC BEANSTALK! CLICK THE BEANSTALK TO CLIMB!")
-        }
     }
 
     const buttonLinkOnClick = async (elementId) => {
@@ -108,11 +144,11 @@ const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, bala
     }
     
 
-    useEffect(() => {
+    useEffect(async () => {
         loadPlant()
 
         return () => {
-          planting?.removeAllListeners("PlantingSuccessful");
+            planting?.removeAllListeners("PlantingSuccessful");
         };
     }, [])
 
@@ -145,7 +181,7 @@ const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, bala
                         </Col>
                         <Col className="mx-0 p-0 my-4 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                             <div className="longButton">
-                                {topText}
+                                {getTopText()}
                             </div>
                         </Col>
                         <Col className="pe-5 ps-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
@@ -156,7 +192,7 @@ const Farm = ({ beanToUse, web3Handler, planting, account, nft, supplyLeft, bala
                 <div className="m-0 p-0 d-xl-none">
                     <Row className="m-0" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                         <div className="longMobileButton">
-                            {topText}
+                            {getTopText()}
                         </div>
                     </Row>
                 </div>

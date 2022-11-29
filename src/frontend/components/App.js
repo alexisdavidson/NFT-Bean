@@ -33,7 +33,11 @@ function App() {
   const [menuFarm, setMenuFarm] = useState(false)
   const [beanToUse, setBeanToUse] = useState(0)
   const [amountMinted, setAmountMinted] = useState(0)
+  const [currentTimestamp, setCurrentTimestamp] = useState(0)
+  let interval;
+  let currentTimestampVariable = 0
 
+  let provider;
   const quantityRef = useRef();
   quantityRef.current = quantity;
   const balanceRef = useRef();
@@ -118,8 +122,17 @@ function App() {
       setBeanToUse(amountMintedRef.current)
   }
 
+  const updateCurrentTimestampFromBlockchain = async () => {
+    console.log("getCurrentTimestamp")
+    const currentBlock = await provider.getBlockNumber();
+    currentTimestampVariable = (await provider.getBlock(currentBlock)).timestamp;
+
+    console.log(currentTimestampVariable)
+    setCurrentTimestamp(currentTimestampVariable)
+  }
+
   const loadContracts = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
@@ -140,10 +153,20 @@ function App() {
   }
   
 
-  useEffect(() => {
+  useEffect(async () => {
     loadContracts()
+    await updateCurrentTimestampFromBlockchain()
+
+    if (interval == null) {
+      interval = setInterval(() => {
+        currentTimestampVariable += 1000
+        setCurrentTimestamp(currentTimestampVariable)
+        // console.log("currentTimestamp: " + currentTimestampVariable)
+      }, 1000);
+    }
 
     return () => {
+      clearInterval(interval);
       nft?.removeAllListeners("MintSuccessful");
     };
   }, [])
@@ -157,7 +180,7 @@ function App() {
               changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
             </Home>
         ) : (
-          <Farm web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+          <Farm currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
             supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
             changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
             beanToUse={beanToUse}>
