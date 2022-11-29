@@ -119,13 +119,26 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
     const plantButton = async () => {
         console.log("plantButton")
 
+        let beanToUseTemp = beanToUse
+
         if(balance == 0 && plant < 4) {
             console.log("YOU DON'T HAVE A BEAN.")
             return
         }
+        if (beanToUse == 0) {
+            let totalSupplyTemp = parseInt(await nft.totalSupply())
+            let burnAmountTemp = parseInt(await nft.burnAmount())
 
-        console.log("triggerPlant " + beanToUse);
-        await planting.plant(beanToUse)
+            console.log("totalSupplyTemp")
+            console.log(totalSupplyTemp)
+            console.log("burnAmountTemp")
+            console.log(burnAmountTemp)
+
+            beanToUseTemp = totalSupplyTemp + burnAmountTemp
+        }
+
+        console.log("triggerPlant " + beanToUseTemp);
+        await planting.plant(beanToUseTemp)
     }
     
 

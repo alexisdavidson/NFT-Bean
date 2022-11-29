@@ -143,7 +143,6 @@ function App() {
     console.log("tickets left: " + supplyLeftTemp)
     setSupplyLeft(supplyLeftTemp)
     setPrice(fromWei(await nft.getPrice()))
-    setBeanToUse(amountMintedTemp)
     listenToEvents(nft)
     setNFT(nft)
     setPlanting(planting)
