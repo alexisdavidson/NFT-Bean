@@ -119,7 +119,7 @@ function App() {
       console.log("mintFinished: " + quantityRef.current)
       setSupplyLeft(supplyLeftRef.current - quantityRef.current)
       setBalance(balanceRef.current + quantityRef.current)
-      setBeanToUse(amountMintedRef.current)
+      // setBeanToUse(amountMintedRef.current)
   }
 
   const updateCurrentTimestampFromBlockchain = async () => {

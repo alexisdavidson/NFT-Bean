@@ -27,6 +27,12 @@ contract Planting is Ownable {
         phaseDuration[2] = 18 * 3600; // 18 Hours
         phaseDuration[3] = 48 * 3600; // 48 Hours
         phaseDuration[4] = 96 * 3600; // 96 Hours
+
+        // testing. remove for mainnet deploy
+        phaseDuration[1] = 60;
+        phaseDuration[2] = 60;
+        phaseDuration[3] = 60;
+        phaseDuration[4] = 60;
     }
 
     function plant(uint256 _tokenId) public {

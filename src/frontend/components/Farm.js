@@ -11,7 +11,7 @@ import AboutUs from './ActionAboutUs'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
-const lastPlantId = 4
+const lastPlantId = 5
 
 const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
     const [countdown, setCountdown] = useState(0)
@@ -30,7 +30,7 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         // console.log("timeLeft: " + timeleft)
         let cooldownDone = timeleft < 0
 
-        if(cooldownDone && balance == 0 && plant < 4) {
+        if(cooldownDone && balance == 0 && plant < lastPlantId) {
             topText=("YOU DON'T HAVE A BEAN.")
         }
         else if(plantObject[0] == 0) {
@@ -38,23 +38,27 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         }
         else if(plantObject[0] == 1) {
             topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
-            if (cooldownDone)
+            if (cooldownDone) {
                 topText=("IT'S SPROUTING. CLICK THE POT TO CONTINUE GROWING")
+            }
         }
         else if(plantObject[0] == 2) {
-            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
-            if (cooldownDone)
+            topText=("NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone) {
                 topText=("NICE SAPLING. CLICK THE POT TO CONTINUE GROWING")
+            }
         }
         else if(plantObject[0] == 3) {
-            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
-            if (cooldownDone)
+            topText=("NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone) {
                 topText=("LOOKING GOOD. CLICK THE BEANSTALK TO CONTINUE GROWING")
+            }
         }
         else if(plantObject[0] == 4) {
-            topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
-            if (cooldownDone)
+            topText=("NEXT STAGE IN ") + getTimeLeftString(timeleft)
+            if (cooldownDone) {
                 topText=("SUCH A MAJESTIC BEANSTALK! CLICK THE BEANSTALK TO CLIMB!")
+            }
         }
 
         return topText
@@ -108,11 +112,47 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         console.log("planting.address: " + planting.address)
         const plantObjectTemp = await planting.getPlant(account)
         console.log("plantObjectTemp: " + plantObjectTemp)
-        setPlant(plantObjectTemp.phase)
         setPlantObject(plantObjectTemp)
-        setPhaseDuration(await planting.phaseDuration(plantObjectTemp.phase))
+        const phaseDurationTemp = await planting.phaseDuration(plantObjectTemp.phase)
+        setPhaseDuration(phaseDurationTemp)
+        setPlantImage(plantObjectTemp, phaseDurationTemp)
 
         listenToEvents()
+    }
+
+    const setPlantImage = (plantObjectTemp, phaseDuration) => {
+        
+        let timeleft = getTimeLeft(currentTimestamp, parseInt(plantObjectTemp[1]), parseInt(phaseDuration))
+        // console.log("timeLeft: " + timeleft)
+        let cooldownDone = timeleft < 0
+
+        if(plantObjectTemp.phase == 0) {
+            setPlant(0)
+        }
+        else if(plantObjectTemp.phase == 1) {
+            setPlant(1)
+            if (cooldownDone) {
+                setPlant(2)
+            }
+        }
+        else if(plantObjectTemp.phase == 2) {
+            setPlant(2)
+            if (cooldownDone) {
+                setPlant(3)
+            }
+        }
+        else if(plantObjectTemp.phase == 3) {
+            setPlant(3)
+            if (cooldownDone) {
+                setPlant(4)
+            }
+        }
+        else if(plantObjectTemp.phase == 4) {
+            setPlant(4)
+            if (cooldownDone) {
+                setPlant(5)
+            }
+        }
     }
 
     const buttonLinkOnClick = async (elementId) => {
@@ -130,7 +170,7 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
 
         let beanToUseTemp = beanToUse
 
-        if(balance == 0 && plant < 4) {
+        if(balance == 0 && plant < lastPlantId) {
             console.log("YOU DON'T HAVE A BEAN.")
             return
         }
@@ -220,7 +260,7 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
                 </div>
 
                 <div className="plantDiv">
-                    {plant != 4 ? (
+                    {plant != lastPlantId ? (
                         <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
                     ) : (
                         <></>
