@@ -27,9 +27,10 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         
         let topText = ""
         let timeleft = getTimeLeft(currentTimestamp, parseInt(plantObject[1]), parseInt(phaseDuration))
+        // console.log("timeLeft: " + timeleft)
         let cooldownDone = timeleft < 0
 
-        if(balance == 0 && plant < 4) {
+        if(cooldownDone && balance == 0 && plant < 4) {
             topText=("YOU DON'T HAVE A BEAN.")
         }
         else if(plantObject[0] == 0) {
@@ -76,13 +77,21 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
     }
 
     const getTimeLeft = (currentTimestamp, timestampStart, duration) => {
-        const timestampEnd = timestampStart + duration * units.second
+        const timestampEnd = timestampStart + duration
         let timestampRelative = timestampEnd - currentTimestamp
+
+        // console.log("timestampStart")
+        // console.log(timestampStart)
+        // console.log("duration")
+        // console.log(duration)
+        // console.log("currentTimestamp")
+        // console.log(currentTimestamp)
 
         return timestampRelative
     }
 
     const getTimeLeftString = (timestampRelative) => {
+        timestampRelative *= 1000;
         // 06:00:00
         const hoursLeft = Math.floor(timestampRelative / units.hour)
         timestampRelative -= hoursLeft * units.hour

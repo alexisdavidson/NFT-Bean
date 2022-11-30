@@ -24,8 +24,8 @@ const Home = ({ web3Handler, setMenuFarm, account, nft, supplyLeft, balance, clo
     return (
         <div className="m-0 p-0 Home">
             {/* LOGO */}
-            <div className="logoDiv d-none d-xl-block"> <Image src={logo} className = "logo" /> </div>
-            <div className="logoDiv d-xl-none"> <Image src={logoMobile} className = "logo" /> </div>
+            {/* <div className="logoDiv d-none d-xl-block"> <Image src={logo} className = "logo" /> </div>
+            <div className="logoDiv d-xl-none"> <Image src={logoMobile} className = "logo" /> </div> */}
 
 
             {/* NAVBAR */}

@@ -158,7 +158,7 @@ function App() {
 
     if (interval == null) {
       interval = setInterval(() => {
-        currentTimestampVariable += 1000
+        currentTimestampVariable += 1
         setCurrentTimestamp(currentTimestampVariable)
         // console.log("currentTimestamp: " + currentTimestampVariable)
       }, 1000);
