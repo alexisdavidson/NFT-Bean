@@ -173,7 +173,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, loadPlant, plantOb
                 <div className="m-0 p-0 d-xl-none">
                     <Row className="m-0" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                         <div className="longMobileButton">
-                            {/* {getTopText()} */}
+                            {getTopText()}
                         </div>
                     </Row>
                 </div>
