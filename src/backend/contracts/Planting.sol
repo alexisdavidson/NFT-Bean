@@ -36,11 +36,12 @@ contract Planting is Ownable {
     }
 
     function plant(uint256 _tokenId) public {
-        require(nft.ownerOf(_tokenId) == msg.sender, "You don't own this bean!");
+        if (plantPerUser[msg.sender].phase == 0) {
+            require(nft.ownerOf(_tokenId) == msg.sender, "You don't own this bean!");
+            nft.burn(_tokenId);
+        }
         require(currentPhaseFinished(msg.sender), "The current growing phase of your plant is not finished yet!");
         require(plantPerUser[msg.sender].phase < lastPhase, "Your plant already reached maximum growth!");
-
-        nft.burn(_tokenId);
 
         plantPerUser[msg.sender].phase += 1;
         plantPerUser[msg.sender].timestampPhaseStarted = block.timestamp;

@@ -29,12 +29,11 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         let timeleft = getTimeLeft(currentTimestamp, parseInt(plantObject[1]), parseInt(phaseDuration))
         // console.log("timeLeft: " + timeleft)
         let cooldownDone = timeleft < 0
-
-        if(cooldownDone && balance == 0 && plant < lastPlantId) {
-            topText=("YOU DON'T HAVE A BEAN.")
-        }
-        else if(plantObject[0] == 0) {
+        
+        if(plantObject[0] == 0) {
             topText=("CLICK THE POT TO PLANT THE BEAN")
+            if(cooldownDone && balance == 0 && plant == 0)
+                topText=("YOU DON'T HAVE A BEAN.")
         }
         else if(plantObject[0] == 1) {
             topText=("BEAN PLANTED. NEXT STAGE IN ") + getTimeLeftString(timeleft)
