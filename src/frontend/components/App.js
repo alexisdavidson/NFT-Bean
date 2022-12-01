@@ -34,10 +34,15 @@ function App() {
   const [beanToUse, setBeanToUse] = useState(0)
   const [amountMinted, setAmountMinted] = useState(0)
   const [currentTimestamp, setCurrentTimestamp] = useState(0)
-  let interval;
-  let currentTimestampVariable = 0
+  const [plantObject, setPlantObject] = useState({})
+  const [plant, setPlant] = useState(0)
+  const [timeleft, setTimeleft] = useState(0)
+  const [provider, setProvider] = useState({})
+  const [intervalVariable, setIntervalVariable] = useState(null)
+  let timeleftLastTick = 0
 
-  let provider;
+  const providerRef = useRef();
+  providerRef.current = provider;
   const quantityRef = useRef();
   quantityRef.current = quantity;
   const balanceRef = useRef();
@@ -46,6 +51,14 @@ function App() {
   supplyLeftRef.current = supplyLeft;
   const amountMintedRef = useRef();
   amountMintedRef.current = amountMinted;
+  const plantingRef = useRef();
+  plantingRef.current = planting;
+  const accountRef = useRef();
+  accountRef.current = account;
+  const currentTimestampRef = useRef();
+  currentTimestampRef.current = currentTimestamp;
+  const intervalRef = useRef();
+  intervalRef.current = intervalVariable;
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -82,6 +95,13 @@ function App() {
     setBalance(await nft.balanceOf(accounts[0]))
     setAccount(accounts[0])
     loadOpenSeaItems(accounts[0], nft)
+    await loadPlant(plantingRef.current)
+    plantingRef.current.on("PlantingSuccessful", (user) => {
+        console.log("PlantingSuccessful");
+        console.log(user);
+
+        loadPlant(plantingRef.current)
+    });
   }
 
   const loadOpenSeaItems = async (acc, nft) => {
@@ -106,14 +126,84 @@ function App() {
       console.log("OpenSea could not find a bean for address " + acc)
   }
 
-  const listenToEvents = async (nft) => {
-    nft.on("MintSuccessful", (user) => {
-        console.log("MintSuccessful");
-        console.log(user);
+  const getTimeLeft = (currentTimestamp, timestampStart, duration) => {
+    const timestampEnd = timestampStart + duration
+    let timestampRelative = timestampEnd - currentTimestamp
 
-        mintFinished(nft);
-    });
-  }
+    // console.log("timestampStart")
+    // console.log(timestampStart)
+    // console.log("duration")
+    // console.log(duration)
+    // console.log("currentTimestamp")
+    // console.log(currentTimestamp)
+
+    return timestampRelative
+}
+
+  const loadPlant = async (planting) => {
+    console.log("load plant for " + accountRef.current)
+    console.log("planting.address: " + planting.address)
+    const plantObjectTemp = await planting.getPlant(accountRef.current)
+    console.log("plantObjectTemp: " + plantObjectTemp)
+    setPlantObject(plantObjectTemp)
+    const phaseDurationTemp = parseInt(await planting.phaseDuration(plantObjectTemp.phase))
+    setPlantImage(plantObjectTemp, phaseDurationTemp)
+    console.log("phase: " + plantObjectTemp.phase + ", duration: " + phaseDurationTemp + ", start: " + parseInt(plantObjectTemp[1]))
+    
+    await updateCurrentTimestampFromBlockchain()
+
+    clearInterval(intervalRef.current)
+    console.log("Set interval")
+    setIntervalVariable(setInterval(() => {
+      setCurrentTimestamp(currentTimestampRef.current + 1)
+      // console.log("currentTimestamp: " + currentTimestampRef.current)
+
+      let timeleftTemp = getTimeLeft(currentTimestampRef.current, parseInt(plantObjectTemp[1]), phaseDurationTemp)
+      setTimeleft(timeleftTemp)
+      let cooldownDone = timeleftTemp <= 0
+      let justFinishedCooldown = cooldownDone && timeleftLastTick > 0
+      console.log("timeleftTemp: " + timeleftTemp)
+      console.log("timeleftLastTick: " + timeleftLastTick)
+
+      if (justFinishedCooldown) {
+          loadPlant(planting)
+      }
+      timeleftLastTick = timeleftTemp
+      
+    }, 1000))
+}
+
+const setPlantImage = (plantObjectTemp) => {
+    let cooldownDone = timeleft <= 0
+
+    if(plantObjectTemp.phase == 0) {
+        setPlant(0)
+    }
+    else if(plantObjectTemp.phase == 1) {
+        setPlant(1)
+        if (cooldownDone) {
+            setPlant(2)
+        }
+    }
+    else if(plantObjectTemp.phase == 2) {
+        setPlant(2)
+        if (cooldownDone) {
+            setPlant(3)
+        }
+    }
+    else if(plantObjectTemp.phase == 3) {
+        setPlant(3)
+        if (cooldownDone) {
+            setPlant(4)
+        }
+    }
+    else if(plantObjectTemp.phase == 4) {
+        setPlant(4)
+        if (cooldownDone) {
+            setPlant(5)
+        }
+    }
+}
 
   const mintFinished = async (nft) => {
       console.log("mintFinished: " + quantityRef.current)
@@ -124,16 +214,17 @@ function App() {
 
   const updateCurrentTimestampFromBlockchain = async () => {
     console.log("getCurrentTimestamp")
-    const currentBlock = await provider.getBlockNumber();
-    currentTimestampVariable = (await provider.getBlock(currentBlock)).timestamp;
+    const currentBlock = await providerRef.current.getBlockNumber();
+    const blockchainTimestamp = (await providerRef.current.getBlock(currentBlock)).timestamp;
 
-    console.log(currentTimestampVariable)
-    setCurrentTimestamp(currentTimestampVariable)
+    console.log(blockchainTimestamp)
+    setCurrentTimestamp(blockchainTimestamp)
   }
 
   const loadContracts = async () => {
-    provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
+    const providerTemp = new ethers.providers.Web3Provider(window.ethereum)
+    setProvider(providerTemp)
+    const signer = providerTemp.getSigner()
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const planting = new ethers.Contract(PlantingAddress.address, PlantingAbi.abi, signer)
@@ -143,9 +234,14 @@ function App() {
     console.log("tickets left: " + supplyLeftTemp)
     setSupplyLeft(supplyLeftTemp)
     setPrice(fromWei(await nft.getPrice()))
-    listenToEvents(nft)
     setNFT(nft)
     setPlanting(planting)
+    nft.on("MintSuccessful", (user) => {
+        console.log("MintSuccessful");
+        console.log(user);
+
+        mintFinished(nft);
+    });
 
     console.log("nft address: " + nft.address)
     console.log("planting address: " + planting.address)
@@ -154,18 +250,9 @@ function App() {
 
   useEffect(async () => {
     loadContracts()
-    await updateCurrentTimestampFromBlockchain()
-
-    if (interval == null) {
-      interval = setInterval(() => {
-        currentTimestampVariable += 1
-        setCurrentTimestamp(currentTimestampVariable)
-        // console.log("currentTimestamp: " + currentTimestampVariable)
-      }, 1000);
-    }
 
     return () => {
-      clearInterval(interval);
+      clearInterval(intervalRef.current);
       nft?.removeAllListeners("MintSuccessful");
     };
   }, [])
@@ -179,7 +266,8 @@ function App() {
               changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} >
             </Home>
         ) : (
-          <Farm currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+          <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
+            currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
             supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
             changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
             beanToUse={beanToUse}>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
 import { Image, Row, Col, Button } from 'react-bootstrap'
 import leftArrow from './assets/left_arrow.svg'
@@ -13,11 +13,9 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 5
 
-const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
-    const [countdown, setCountdown] = useState(0)
-    const [plant, setPlant] = useState(0)
-    const [plantObject, setPlantObject] = useState({})
-    const [phaseDuration, setPhaseDuration] = useState(0)
+const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, loadPlant, plantObject, web3Handler, planting, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
+    const plantingRef = useRef();
+    plantingRef.current = planting;
 
     const zeroPad = (num, places) => String(num).padStart(places, '0')
 
@@ -26,9 +24,9 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
             return ""
         
         let topText = ""
-        let timeleft = getTimeLeft(currentTimestamp, parseInt(plantObject[1]), parseInt(phaseDuration))
+        // console.log("GETTOPTEXT")
         // console.log("timeLeft: " + timeleft)
-        let cooldownDone = timeleft < 0
+        let cooldownDone = timeleft <= 0
         
         if(plantObject[0] == 0) {
             topText=("CLICK THE POT TO PLANT THE BEAN")
@@ -79,20 +77,6 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         second: 1000,
     }
 
-    const getTimeLeft = (currentTimestamp, timestampStart, duration) => {
-        const timestampEnd = timestampStart + duration
-        let timestampRelative = timestampEnd - currentTimestamp
-
-        // console.log("timestampStart")
-        // console.log(timestampStart)
-        // console.log("duration")
-        // console.log(duration)
-        // console.log("currentTimestamp")
-        // console.log(currentTimestamp)
-
-        return timestampRelative
-    }
-
     const getTimeLeftString = (timestampRelative) => {
         timestampRelative *= 1000;
         // 06:00:00
@@ -105,53 +89,6 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
         const secsLeft = Math.floor(timestampRelative / units.second)
 
         return zeroPad(hoursLeft, 2) + ":" + zeroPad(minsLeft, 2) + ":" + zeroPad(secsLeft, 2) + "";
-    }
-
-    const loadPlant = async () => {
-        console.log("planting.address: " + planting.address)
-        const plantObjectTemp = await planting.getPlant(account)
-        console.log("plantObjectTemp: " + plantObjectTemp)
-        setPlantObject(plantObjectTemp)
-        const phaseDurationTemp = await planting.phaseDuration(plantObjectTemp.phase)
-        setPhaseDuration(phaseDurationTemp)
-        setPlantImage(plantObjectTemp, phaseDurationTemp)
-
-        listenToEvents()
-    }
-
-    const setPlantImage = (plantObjectTemp, phaseDuration) => {
-        
-        let timeleft = getTimeLeft(currentTimestamp, parseInt(plantObjectTemp[1]), parseInt(phaseDuration))
-        // console.log("timeLeft: " + timeleft)
-        let cooldownDone = timeleft < 0
-
-        if(plantObjectTemp.phase == 0) {
-            setPlant(0)
-        }
-        else if(plantObjectTemp.phase == 1) {
-            setPlant(1)
-            if (cooldownDone) {
-                setPlant(2)
-            }
-        }
-        else if(plantObjectTemp.phase == 2) {
-            setPlant(2)
-            if (cooldownDone) {
-                setPlant(3)
-            }
-        }
-        else if(plantObjectTemp.phase == 3) {
-            setPlant(3)
-            if (cooldownDone) {
-                setPlant(4)
-            }
-        }
-        else if(plantObjectTemp.phase == 4) {
-            setPlant(4)
-            if (cooldownDone) {
-                setPlant(5)
-            }
-        }
     }
 
     const buttonLinkOnClick = async (elementId) => {
@@ -169,7 +106,7 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
 
         let beanToUseTemp = beanToUse
 
-        if(balance == 0 && plant < lastPlantId) {
+        if(balance == 0 && plant == 0) {
             console.log("YOU DON'T HAVE A BEAN.")
             return
         }
@@ -190,24 +127,7 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
     }
     
 
-    const listenToEvents = async () => {
-        planting.on("PlantingSuccessful", (user) => {
-            console.log("PlantingSuccessful");
-            console.log(user);
-
-            plantFinished();
-        });
-    }
-
-    const plantFinished = () => {
-        console.log("plantFinished")
-        loadPlant()
-    }
-    
-
     useEffect(async () => {
-        loadPlant()
-
         return () => {
             planting?.removeAllListeners("PlantingSuccessful");
         };
@@ -253,7 +173,7 @@ const Farm = ({ beanToUse, currentTimestamp, web3Handler, planting, account, nft
                 <div className="m-0 p-0 d-xl-none">
                     <Row className="m-0" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                         <div className="longMobileButton">
-                            {getTopText()}
+                            {/* {getTopText()} */}
                         </div>
                     </Row>
                 </div>

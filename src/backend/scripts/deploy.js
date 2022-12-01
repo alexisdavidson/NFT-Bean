@@ -19,6 +19,11 @@ async function main() {
   await nft.setPlantingAddress(planting.address);
 
   console.log("setPlantingAddress called")
+
+  await nft.setMintEnabled(true);
+  await nft.setPrice(0);
+  await nft.mint(1, { value: 0});
+  console.log("Goerli test functions called")
 }
 
 function saveFrontendFiles(contract, name) {
