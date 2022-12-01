@@ -59,6 +59,8 @@ function App() {
   currentTimestampRef.current = currentTimestamp;
   const intervalRef = useRef();
   intervalRef.current = intervalVariable;
+  const timeleftRef = useRef();
+  timeleftRef.current = timeleft;
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -147,10 +149,14 @@ function App() {
     console.log("plantObjectTemp: " + plantObjectTemp)
     setPlantObject(plantObjectTemp)
     const phaseDurationTemp = parseInt(await planting.phaseDuration(plantObjectTemp.phase))
+
+    await updateCurrentTimestampFromBlockchain()
+    let timeleftTemp = getTimeLeft(currentTimestampRef.current, parseInt(plantObjectTemp[1]), phaseDurationTemp)
+    setTimeleft(timeleftTemp)
+
     setPlantImage(plantObjectTemp, phaseDurationTemp)
     console.log("phase: " + plantObjectTemp.phase + ", duration: " + phaseDurationTemp + ", start: " + parseInt(plantObjectTemp[1]))
     
-    await updateCurrentTimestampFromBlockchain()
 
     clearInterval(intervalRef.current)
     console.log("Set interval")
@@ -162,8 +168,8 @@ function App() {
       setTimeleft(timeleftTemp)
       let cooldownDone = timeleftTemp <= 0
       let justFinishedCooldown = cooldownDone && timeleftLastTick > 0
-      console.log("timeleftTemp: " + timeleftTemp)
-      console.log("timeleftLastTick: " + timeleftLastTick)
+      // console.log("timeleftTemp: " + timeleftTemp)
+      // console.log("timeleftLastTick: " + timeleftLastTick)
 
       if (justFinishedCooldown) {
           loadPlant(planting)
@@ -174,35 +180,41 @@ function App() {
 }
 
 const setPlantImage = (plantObjectTemp) => {
-    let cooldownDone = timeleft <= 0
+    let cooldownDone = timeleftRef.current <= 0
+
+    let plantSet = 0
 
     if(plantObjectTemp.phase == 0) {
-        setPlant(0)
+      plantSet = (0)
     }
     else if(plantObjectTemp.phase == 1) {
-        setPlant(1)
+        plantSet = (1)
         if (cooldownDone) {
-            setPlant(2)
+          plantSet = (2)
         }
     }
     else if(plantObjectTemp.phase == 2) {
-        setPlant(2)
+        plantSet = (2)
         if (cooldownDone) {
-            setPlant(3)
+          plantSet = (3)
         }
     }
     else if(plantObjectTemp.phase == 3) {
-        setPlant(3)
+        plantSet = (3)
         if (cooldownDone) {
-            setPlant(4)
+          plantSet = (4)
         }
     }
     else if(plantObjectTemp.phase == 4) {
-        setPlant(4)
+        plantSet = (4)
         if (cooldownDone) {
-            setPlant(5)
+          plantSet = (5)
         }
     }
+
+    console.log("setPlantImage, cooldownDone: " + cooldownDone + ", plantSet: " + plantSet)
+
+    setPlant(plantSet)
 }
 
   const mintFinished = async (nft) => {

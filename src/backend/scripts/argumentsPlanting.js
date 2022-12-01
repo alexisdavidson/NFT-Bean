@@ -1,3 +1,3 @@
 module.exports = [
-    "0x59b960bAAFE7858301B5E6B86b6b5897bA3A1388" // nft address
+    "0x73cf7F4B732093A08218077aeD21f841C5245dE8" // nft address
 ];
