@@ -13,9 +13,9 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     address public plantingAddress;
     uint256 public burnAmount;
 
-    uint256 public amountMintPerAccount = 2;
+    uint256 public amountMintPerAccount = 1;
     bool public mintEnabled;
-    uint256 public price = 0.08 ether;
+    uint256 public price = 0.01 ether;
 
     event MintSuccessful(address user);
 

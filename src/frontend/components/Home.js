@@ -13,7 +13,7 @@ import AboutUs from './ActionAboutUs'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, setMenuFarm, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
+const Home = ({ web3Handler, plantPhase, setMenuFarm, account, nft, price, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
 
     const buttonLinkOnClick = async (elementId) => {
         console.log("buttonLinkOnClick: " + elementId)
@@ -90,7 +90,8 @@ const Home = ({ web3Handler, setMenuFarm, account, nft, supplyLeft, balance, clo
                 '0': <></>,
                 '1': <Mint web3Handler={web3Handler} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} 
                         changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
-                        buttonLinkOnClick={buttonLinkOnClick} closeMenu={closeMenu} setMenuFarm={setMenuFarm} />,
+                        buttonLinkOnClick={buttonLinkOnClick} closeMenu={closeMenu} setMenuFarm={setMenuFarm} 
+                        price={price} plantPhase={plantPhase} />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
                 '10': <Menu web3Handler={web3Handler} account={account} closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick} setMenuFarm={setMenuFarm} />,
