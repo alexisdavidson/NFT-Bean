@@ -153,6 +153,7 @@ function App() {
     await updateCurrentTimestampFromBlockchain()
     let timeleftTemp = getTimeLeft(currentTimestampRef.current, parseInt(plantObjectTemp[1]), phaseDurationTemp)
     setTimeleft(timeleftTemp)
+    console.log("timeleftTemp: " + timeleftTemp)
 
     setPlantImage(plantObjectTemp, phaseDurationTemp)
     console.log("phase: " + plantObjectTemp.phase + ", duration: " + phaseDurationTemp + ", start: " + parseInt(plantObjectTemp[1]))
