@@ -12,7 +12,7 @@ const Menu = ({web3Handler, account, closeMenu, toggleMenu, buttonLinkOnClick, s
                 <div className="mobileMenuButton" onClick={() => toggleMenu(2)}>HOW TO</div>
                 <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('twitterLink')}>TWITTER</div>
                 <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('discordLink')}>DISCORD</div>
-                <div className="mobileMenuButton" onClick={() => toggleMenu(3)}>ABOUT US</div>
+                <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('aboutusLink')}>ABOUT US</div>
             </Row>
         </Row>
     );

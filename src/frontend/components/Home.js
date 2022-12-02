@@ -66,18 +66,19 @@ const Home = ({ web3Handler, plantPhase, setMenuFarm, account, nft, price, suppl
                         <Row className="mx-0 p-0" style={{marginTop: "30vh"}}>
                             <div className="actionButton" onClick={() => buttonLinkOnClick('twitterLink')} >
                                 TWITTER
-                                <a href="https://twitter.com" target="_blank" id="twitterLink"></a>
+                                <a href="https://twitter.com/beanstalkerxyz" target="_blank" id="twitterLink"></a>
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
                             <div className="actionButton" onClick={() => buttonLinkOnClick('discordLink')} >
                                 DISCORD
-                                <a href="https://discord.com" target="_blank" id="discordLink"></a>
+                                <a href="https://discord.gg/taletinker" target="_blank" id="discordLink"></a>
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={() => toggleMenu(3)} >
+                            <div className="actionButton" onClick={() => buttonLinkOnClick('aboutusLink')} >
                                 ABOUT US
+                                <a href="https://taletinker.com" target="_blank" id="aboutusLink"></a>
                             </div>
                         </Row>
                     </Col>
