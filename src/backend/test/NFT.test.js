@@ -6,8 +6,6 @@ const fromWei = (num) => parseInt(ethers.utils.formatEther(num))
 
 describe("NFT & Planting", async function() {
     let deployer, addr1, addr2, nft
-    let teamWallet = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-    let whitelist = []
     let price = 0.01
 
     beforeEach(async function() {
@@ -44,10 +42,7 @@ describe("NFT & Planting", async function() {
             await nft.connect(addr1).mint(1, { value: toWei(price)});
             expect(await nft.balanceOf(addr1.address)).to.equal(1);
 
-            await nft.connect(addr2).mint(2, { value: toWei(price * 2)});
-            expect(await nft.balanceOf(addr2.address)).to.equal(2);
-
-            await expect(nft.connect(addr3).mint(3, { value: toWei(price * 3)})).to.be.revertedWith('Each address may only mint x NFTs!');
+            await expect(nft.connect(addr3).mint(2, { value: toWei(price * 2)})).to.be.revertedWith('Each address may only mint x NFTs!');
         })
         it("Should perform owner functions", async function() {
             let newAmountMintPerAccount = 10
@@ -68,10 +63,10 @@ describe("NFT & Planting", async function() {
     describe("Planting Deployment", function() {
         it("Should track the different initialized phases", async function() {
             expect(parseInt(await planting.phaseDuration(0))).to.equal(0)
-            // expect(parseInt(await planting.phaseDuration(1))).to.equal(4 * 3600)
-            // expect(parseInt(await planting.phaseDuration(2))).to.equal(18 * 3600)
-            // expect(parseInt(await planting.phaseDuration(3))).to.equal(48 * 3600)
-            // expect(parseInt(await planting.phaseDuration(4))).to.equal(96 * 3600)
+            expect(parseInt(await planting.phaseDuration(1))).to.equal(4 * 3600)
+            expect(parseInt(await planting.phaseDuration(2))).to.equal(18 * 3600)
+            expect(parseInt(await planting.phaseDuration(3))).to.equal(48 * 3600)
+            expect(parseInt(await planting.phaseDuration(4))).to.equal(96 * 3600)
         })
 
         it("Should plant through different phases", async function() {
