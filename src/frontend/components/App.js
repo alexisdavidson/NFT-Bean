@@ -279,7 +279,8 @@ const setPlantImage = (plantObjectTemp) => {
         {!menuFarm ? (
             <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
               supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-              changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}>
+              changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}
+              >
             </Home>
         ) : (
           <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
