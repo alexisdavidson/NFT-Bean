@@ -219,6 +219,7 @@ a:link, a:visited, a:hover, a:active {
 
   .Home, .Farm {
     background-image: url("./assets/mobile/home_mobile.jpg");
+    background-position: 0 0;
   }
 
   .Farm {
