@@ -23,7 +23,7 @@ contract Planting is Ownable {
         nft = NFT(_nftAddress);
 
         phaseDuration[0] = 0; // Can start planting right away
-        phaseDuration[1] = 4 * 3600; // 4 Hours
+        phaseDuration[1] = 6 * 3600; // 6 Hours
         phaseDuration[2] = 18 * 3600; // 18 Hours
         phaseDuration[3] = 48 * 3600; // 48 Hours
         phaseDuration[4] = 96 * 3600; // 96 Hours

@@ -63,7 +63,7 @@ describe("NFT & Planting", async function() {
     describe("Planting Deployment", function() {
         it("Should track the different initialized phases", async function() {
             expect(parseInt(await planting.phaseDuration(0))).to.equal(0)
-            expect(parseInt(await planting.phaseDuration(1))).to.equal(4 * 3600)
+            expect(parseInt(await planting.phaseDuration(1))).to.equal(6 * 3600)
             expect(parseInt(await planting.phaseDuration(2))).to.equal(18 * 3600)
             expect(parseInt(await planting.phaseDuration(3))).to.equal(48 * 3600)
             expect(parseInt(await planting.phaseDuration(4))).to.equal(96 * 3600)
@@ -89,7 +89,7 @@ describe("NFT & Planting", async function() {
             expect(currentPlant.timestampPhaseStarted).to.equal(currentTimestamp)
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(false)
             
-            await helpers.time.increase(3 * 3600);
+            await helpers.time.increase(5 * 3600);
             expect(await planting.currentPhaseFinished(addr1.address)).to.equal(phaseFinishedEarly)
             if (!phaseFinishedEarly) await expect(planting.connect(addr1).plant(3)).to.be.revertedWith('The current growing phase of your plant is not finished yet!');
             await helpers.time.increase(1 * 3600);
