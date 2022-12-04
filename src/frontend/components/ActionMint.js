@@ -18,7 +18,11 @@ const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, plan
                         <div className="">{price} ETH PER BEAN. 1 BEAN PER WALLET</div>
                     </Row>
                     <Row className="mx-auto mt-0 mb-4 ticketsFrame">
-                        <div className="">{supplyLeft}/5000 BEANS REMAINING</div>
+                        {account ? (
+                            <div className="">{supplyLeft}/5000 BEANS REMAINING</div>
+                        ) : (
+                            <></>
+                        )}
                     </Row>
                     <Row className="mx-auto mt-0 mb-4 ticketsFrame">
                         {account && false ? (

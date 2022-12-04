@@ -25,7 +25,7 @@ function App() {
   const [account, setAccount] = useState(null)
   const [balance, setBalance] = useState(0)
   const [supplyLeft, setSupplyLeft] = useState(totalSupply)
-  const [price, setPrice] = useState(0.008)
+  const [price, setPrice] = useState(0.01)
   const [nft, setNFT] = useState({})
   const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
@@ -53,6 +53,8 @@ function App() {
   amountMintedRef.current = amountMinted;
   const plantingRef = useRef();
   plantingRef.current = planting;
+  const nftRef = useRef();
+  nftRef.current = nft;
   const accountRef = useRef();
   accountRef.current = account;
   const currentTimestampRef = useRef();
@@ -93,10 +95,12 @@ function App() {
 
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    await loadContracts()
     
-    setBalance(await nft.balanceOf(accounts[0]))
+    setBalance(await nftRef.current.balanceOf(accounts[0]))
     setAccount(accounts[0])
-    loadOpenSeaItems(accounts[0], nft)
+    loadOpenSeaItems(accounts[0], nftRef.current)
     await loadPlant(plantingRef.current)
     plantingRef.current.on("PlantingSuccessful", (user) => {
         console.log("PlantingSuccessful");
@@ -235,6 +239,7 @@ const setPlantImage = (plantObjectTemp) => {
   }
 
   const loadContracts = async () => {
+    console.log("loadContracts")
     const providerTemp = new ethers.providers.Web3Provider(window.ethereum)
     setProvider(providerTemp)
     const signer = providerTemp.getSigner()
@@ -262,8 +267,6 @@ const setPlantImage = (plantObjectTemp) => {
   
 
   useEffect(async () => {
-    loadContracts()
-
     return () => {
       clearInterval(intervalRef.current);
       nft?.removeAllListeners("MintSuccessful");
