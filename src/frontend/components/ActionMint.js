@@ -8,7 +8,7 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, plantPhase, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
 
     return (
-        <Row className="actionFrame">
+        <Row className="actionFrame actionMintFrame">
             {balance < 1  && plantPhase == 0 ? (
                 <>
                     <Row className="mx-auto mintFrame">

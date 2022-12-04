@@ -205,12 +205,15 @@ a:link, a:visited, a:hover, a:active {
 
 @media only screen and (max-width: 1199.98px){
   .actionFrame {
-    background-image: url("./assets/mobile/mint_menu.png");
+    background-image: url("./assets/mobile/mobile_menu.png");
     top : 15%;
     left : 0%;
     width: 100%;
     height: 80%;
     padding-top: 8vh;
+  }
+  .actionMintFrame {
+    background-image: url("./assets/mobile/mint_menu.png");
   }
   .logo {
     width: 95%;
