@@ -41,6 +41,7 @@ describe("NFT & Planting", async function() {
 
             await nft.connect(addr1).mint(1, { value: toWei(price)});
             expect(await nft.balanceOf(addr1.address)).to.equal(1);
+            expect(await nft.totalSupply()).to.equal(1);
 
             await expect(nft.connect(addr3).mint(2, { value: toWei(price * 2)})).to.be.revertedWith('Each address may only mint x NFTs!');
         })
@@ -79,9 +80,12 @@ describe("NFT & Planting", async function() {
 
             // 1st plant
             await nft.connect(addr2).mint(1, { value: toWei(price)});
+            expect(await nft.totalSupply()).to.equal(1);
             await expect(planting.connect(addr1).plant(1)).to.be.revertedWith("You don't own this bean!");
             await nft.connect(addr1).mint(1, { value: toWei(price)});
+            expect(await nft.totalSupply()).to.equal(2);
             await planting.connect(addr1).plant(2)
+            expect(await nft.totalSupply()).to.equal(1);
             expect(await nft.balanceOf(addr1.address)).to.equal(0);
             currentPlant = await planting.getPlant(addr1.address)
             let currentTimestamp = await helpers.time.latest()

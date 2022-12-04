@@ -19,7 +19,8 @@ module.exports = {
      },
      mainnet: {
       url: process.env.REACT_APP_API_URL_MAINNET_INFURA,
-      accounts: [process.env.REACT_APP_PRIVATE_KEY_MAINNET_KENNY_2],
+      accounts: ['0x' + process.env.REACT_APP_PRIVATE_KEY_GOERLI_KENNY],
+      // accounts: [process.env.REACT_APP_PRIVATE_KEY_MAINNET_KENNY_2],
       gas: 2100000,
       gasPrice: 30000000000
     }

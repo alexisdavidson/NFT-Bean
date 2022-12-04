@@ -6,17 +6,17 @@ async function main() {
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", fromWei(await deployer.getBalance()));
   
-  const NFT = await ethers.getContractFactory("NFT");
-  const nft = await NFT.deploy();
-  console.log("NFT contract address", nft.address)
-  saveFrontendFiles(nft, "NFT");
+  // const NFT = await ethers.getContractFactory("NFT");
+  // const nft = await NFT.deploy();
+  // console.log("NFT contract address", nft.address)
+  // saveFrontendFiles(nft, "NFT");
 
   const Planting = await ethers.getContractFactory("Planting");
-  const planting = await Planting.deploy(nft.address);
+  const planting = await Planting.deploy("0xa75689d2a5329acfc70dc6f8f2de7ddfbb4eadb9");
   console.log("Planting contract address", planting.address)
   saveFrontendFiles(planting, "Planting");
   
-  await nft.setPlantingAddress(planting.address);
+  // await nft.setPlantingAddress(planting.address);
 
   console.log("setPlantingAddress called")
 
