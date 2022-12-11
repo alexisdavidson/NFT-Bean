@@ -4,7 +4,7 @@ import { Image, Row, Col, Button } from 'react-bootstrap'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
-const mintEnabled = false
+const mintEnabled = true
 
 const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, plantPhase, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
 
