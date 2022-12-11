@@ -96,7 +96,7 @@ function App() {
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-    await loadContracts()
+    await loadContracts(accounts[0])
     
     setBalance(await nftRef.current.balanceOf(accounts[0]))
     setAccount(accounts[0])
@@ -105,8 +105,9 @@ function App() {
     plantingRef.current.on("PlantingSuccessful", (user) => {
         console.log("PlantingSuccessful");
         console.log(user);
-
-        loadPlant(plantingRef.current)
+        if (user == accounts[0]) {
+          loadPlant(plantingRef.current)
+        }
     });
   }
 
@@ -238,7 +239,7 @@ const setPlantImage = (plantObjectTemp) => {
     setCurrentTimestamp(blockchainTimestamp)
   }
 
-  const loadContracts = async () => {
+  const loadContracts = async (acc) => {
     console.log("loadContracts")
     const providerTemp = new ethers.providers.Web3Provider(window.ethereum)
     setProvider(providerTemp)
@@ -257,8 +258,9 @@ const setPlantImage = (plantObjectTemp) => {
     nft.on("MintSuccessful", (user) => {
         console.log("MintSuccessful");
         console.log(user);
-
-        mintFinished(nft);
+        if (user == acc) {
+          mintFinished(nft);
+        }
     });
 
     console.log("nft address: " + nft.address)
