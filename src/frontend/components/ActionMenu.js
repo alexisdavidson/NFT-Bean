@@ -8,7 +8,7 @@ const Menu = ({web3Handler, account, closeMenu, toggleMenu, buttonLinkOnClick, s
         <Row className="actionFrame">
             <Row className="m-0 p-0">
                 <Row className="m-0 p-0">
-                    <div className="mobileMenuButton" onClick={() => toggleMenu(1)}>MINT A BEAN</div>
+                    <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('openseaLink')}>OPENSEA</div>
                 </Row>
                 <Row className="m-0 p-0">
                     <div className="mobileMenuButton" onClick={async () => { closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}}>FARM</div>

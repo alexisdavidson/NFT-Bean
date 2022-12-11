@@ -105,14 +105,15 @@ function App() {
     plantingRef.current.on("PlantingSuccessful", (user) => {
         console.log("PlantingSuccessful");
         console.log(user);
-        if (user == accounts[0]) {
+        console.log(accounts[0]);
+        if (user.toLowerCase() == accounts[0].toLowerCase()) {
           loadPlant(plantingRef.current)
         }
     });
   }
 
   const loadOpenSeaItems = async (acc, nft) => {
-    let items = await fetch(`${configContract.OPENSEA_API_TESTNETS}/assets?owner=${acc}&asset_contract_address=${nft.address}&format=json`)
+    let items = await fetch(`${configContract.OPENSEA_API}/assets?owner=${acc}&asset_contract_address=${nft.address}&format=json`)
     .then((res) => res.json())
     .then((res) => {
       return res.assets
@@ -258,7 +259,8 @@ const setPlantImage = (plantObjectTemp) => {
     nft.on("MintSuccessful", (user) => {
         console.log("MintSuccessful");
         console.log(user);
-        if (user == acc) {
+        console.log(acc);
+        if (user.toLowerCase() == acc.toLowerCase()) {
           mintFinished(nft);
         }
     });

@@ -45,8 +45,9 @@ const Home = ({ web3Handler, plantPhase, setMenuFarm, account, nft, price, suppl
                 <Row className="m-0 p-0">
                     <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                         <Row className="mx-0 p-0" style={{marginTop: "30vh"}}>
-                            <div className="actionButton" onClick={() => toggleMenu(1)} >
-                                MINT A BEAN
+                            <div className="actionButton" onClick={() => buttonLinkOnClick('openseaLink')} >
+                                OPENSEA
+                                <a href="https://opensea.io/collection/beanstalker" target="_blank" id="openseaLink"></a>
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
