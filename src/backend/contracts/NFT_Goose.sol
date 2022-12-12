@@ -24,6 +24,8 @@ contract NFT_Goose is Ownable, ERC721A, DefaultOperatorFilterer {
         require(msg.sender == castleAddress, "Only the castle can mint a Goose!");
         require(totalSupply() + 1 < max_supply, 'Cannot mint more than max supply');
         _mint(_user, 1);
+        
+        emit MintSuccessful(msg.sender);
     }
 
     function mint(uint256 _quantity) external payable {

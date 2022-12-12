@@ -17,10 +17,13 @@ contract Castle is Ownable, ReentrancyGuard {
 
     event LootingSuccessful(address user, uint256 choice);
 
-    constructor(address _plantingAddress, address _tokenAddress, address _nftAddress) {
+    constructor(address _plantingAddress, address _nftAddress) {
         planting = Planting(_plantingAddress);
-        token = ERC20(_tokenAddress);
         nft = NFT_Goose(_nftAddress);
+    }
+
+    function setTokenAddress(address _tokenAddress) public onlyOwner {
+        token = ERC20(_tokenAddress);
     }
 
     function loot(uint256 _choice) public nonReentrant {
@@ -30,9 +33,9 @@ contract Castle is Ownable, ReentrancyGuard {
 
         userAlreadyLooted[msg.sender] = true;
 
-        if (_choice == 0) { // Chose the treasure
+        if (_choice == 0) { // Treasure
             token.transfer(msg.sender, 1);
-        } else { // Chose the Goose
+        } else { // Goose
             nft.mintForUser(msg.sender);
         }
 
