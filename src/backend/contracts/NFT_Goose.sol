@@ -11,10 +11,12 @@ contract NFT_Goose is Ownable, ERC721A, DefaultOperatorFilterer {
     string public uriSuffix = '.json';
     uint256 public max_supply = 5000;
     address public castleAddress;
+    address public wolfAddress;
 
     uint256 public amountMintPerAccount = 1;
     bool public mintEnabled;
     uint256 public price = 0;
+    uint256 public burnAmount;
 
     event MintSuccessful(address user);
 
@@ -49,7 +51,7 @@ contract NFT_Goose is Ownable, ERC721A, DefaultOperatorFilterer {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://QmZnXGbXgpBNjAJaaaoWsH5VYoTNkVgpVmbpgFXnTUyQ5d/";
+        return "ipfs://QmQFUfzErTD75SZ8oapZbwShyz2Li51G6oXstfb3wbzwHr/";
     }
     
     function baseTokenURI() public pure returns (string memory) {
@@ -57,7 +59,7 @@ contract NFT_Goose is Ownable, ERC721A, DefaultOperatorFilterer {
     }
 
     function contractURI() public pure returns (string memory) {
-        return "ipfs://QmQyzT57qahsGY2qp6fZ3G1TEUzciDmA7xcPaiyS1QswLr/";
+        return "ipfs://QmdjBLs56SuQvsDCXD1aKRkQsYgtGWMY9k4RLA8sborkrw/";
     }
 
     function setAmountMintPerAccount(uint _amountMintPerAccount) public onlyOwner {
@@ -102,5 +104,15 @@ contract NFT_Goose is Ownable, ERC721A, DefaultOperatorFilterer {
 
     function setCastleAddress(address _address) public onlyOwner {
         castleAddress = _address;
+    }
+
+    function setWolfAddress(address _address) public onlyOwner {
+        wolfAddress = _address;
+    }
+
+    function burn(uint256 _tokenId) public {
+        require(wolfAddress == msg.sender, "Only the Wolf smart contract can burn this NFT.");
+        _burn(_tokenId);
+        burnAmount += 1;
     }
 }

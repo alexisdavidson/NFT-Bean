@@ -20,10 +20,32 @@ async function main() {
 
   console.log("setPlantingAddress called")
 
-  // await nft.setMintEnabled(true);
-  // await nft.setPrice(0);
-  // await nft.mint(1, { value: 0});
-  // console.log("Goerli test functions called")
+  // For testing
+  await nft.setMintEnabled(true);
+  await nft.setPrice(0);
+  await nft.mint(1, { value: 0});
+  console.log("Goerli test functions called")
+
+  // Phase 2 deployment code
+  const NFT_Goose = await ethers.getContractFactory("NFT_Goose");
+  const Token_Egg = await ethers.getContractFactory("Token_Egg");
+  const Castle = await ethers.getContractFactory("Castle");
+
+  const nftGoose = await NFT_Goose.deploy();
+  console.log("nftGoose contract address", nftGoose.address)
+  saveFrontendFiles(nftGoose, "NFT_Goose");
+
+  const castle = await Castle.deploy(planting.address, nftGoose.address);
+  console.log("castle contract address", castle.address)
+  saveFrontendFiles(castle, "Castle");
+
+  const tokenEgg = await Token_Egg.deploy(castle.address, deployer.address);
+  console.log("castle contract address", castle.address)
+  saveFrontendFiles(tokenEgg, "Token_Egg");
+
+  nftGoose.setCastleAddress(castle.address);
+  castle.setTokenAddress(tokenEgg.address);
+  console.log("Set address functions called")
 }
 
 function saveFrontendFiles(contract, name) {

@@ -63,6 +63,10 @@ function App() {
   intervalRef.current = intervalVariable;
   const timeleftRef = useRef();
   timeleftRef.current = timeleft;
+
+  const enterCastleFunction = () => {
+    console.log("enterCastleFunction")
+  }
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -280,20 +284,45 @@ const setPlantImage = (plantObjectTemp) => {
   return (
     <BrowserRouter>
       <div className="App" id="wrapper">
-        {!menuFarm ? (
-            <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
-              supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-              changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}
-              >
-            </Home>
-        ) : (
-          <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
-            currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
-            supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-            changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
-            beanToUse={beanToUse}>
-          </Farm>
-        )}
+        
+      <Routes>
+            <Route path="/" element={
+              <>
+                {!menuFarm ? (
+                    <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+                      changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}
+                      >
+                    </Home>
+                ) : (
+                  <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
+                    currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+                    supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+                    changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
+                    beanToUse={beanToUse} castleEnabled={false} enterCastleFunction={enterCastleFunction}>
+                  </Farm>
+                )}
+              </>
+            } />
+            <Route path="/tester" element={
+              <>
+                {!menuFarm ? (
+                    <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+                      changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}
+                      >
+                    </Home>
+                ) : (
+                  <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
+                    currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+                    supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+                    changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
+                    beanToUse={beanToUse} castleEnabled={true} enterCastleFunction={enterCastleFunction}>
+                  </Farm>
+                )}
+              </>
+            } />
+          </Routes>
       </div>
     </BrowserRouter>
   );

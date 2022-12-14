@@ -27,6 +27,12 @@ contract Planting is Ownable {
         phaseDuration[2] = 18 * 3600; // 18 Hours
         phaseDuration[3] = 48 * 3600; // 48 Hours
         phaseDuration[4] = 96 * 3600; // 96 Hours
+
+        // For testing
+        phaseDuration[1] = 5;
+        phaseDuration[2] = 5;
+        phaseDuration[3] = 5;
+        phaseDuration[4] = 5;
     }
 
     function plant(uint256 _tokenId) public {
