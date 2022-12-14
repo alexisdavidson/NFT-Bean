@@ -12,7 +12,7 @@ async function main() {
   saveFrontendFiles(nft, "NFT");
 
   const Planting = await ethers.getContractFactory("Planting");
-  const planting = await Planting.deploy("0xa75689d2a5329acfc70dc6f8f2de7ddfbb4eadb9");
+  const planting = await Planting.deploy(nft.address);
   console.log("Planting contract address", planting.address)
   saveFrontendFiles(planting, "Planting");
   

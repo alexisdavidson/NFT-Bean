@@ -126,6 +126,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, loadPlant, plantOb
         }
 
         console.log("triggerPlant " + beanToUseTemp);
+        console.log("planting", planting)
         await planting.plant(beanToUseTemp)
     }
     

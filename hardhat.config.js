@@ -12,7 +12,7 @@ module.exports = {
      },
      goerli: {
        url: process.env.REACT_APP_API_URL_GOERLI_INFURA,
-       accounts: ['0x' + process.env.REACT_APP_PRIVATE_KEY_GOERLI_KENNY],
+       accounts: ['0x' + process.env.REACT_APP_PRIVATE_KEY_GOERLI],
        allowUnlimitedContractSize: true,
        gas: 2100000,
        gasPrice: 8000000000,
