@@ -40,7 +40,7 @@ async function main() {
   saveFrontendFiles(castle, "Castle");
 
   const tokenEgg = await Token_Egg.deploy(castle.address, deployer.address);
-  console.log("castle contract address", castle.address)
+  console.log("tokenEgg contract address", tokenEgg.address)
   saveFrontendFiles(tokenEgg, "Token_Egg");
 
   nftGoose.setCastleAddress(castle.address);

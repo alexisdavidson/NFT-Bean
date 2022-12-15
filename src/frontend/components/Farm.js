@@ -99,30 +99,30 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
     const pickLoot = async(choice) => {
         console.log("pickLoot", choice)
 
-        // await castle.loot(choice)
-        // castle.on("LootingSuccessful", (user, choice) => {
-        //     console.log("LootingSuccessful");
-        //     console.log("user", user);
-        //     console.log("choice", choice);
-        //     console.log("account", account);
-        //     if (user.toLowerCase() == account.toLowerCase()) {
-        //         if (choice == 0) {
-        //             setBackground("Castle_35")
-        //             setCastleStep(3.5)
-        //         } else {
-        //             setBackground("Castle_3")
-        //             setCastleStep(3)
-        //         }
-        //     }
-        // });
+        await castle.loot(choice)
+        castle.on("LootingSuccessful", (user, choice) => {
+            console.log("LootingSuccessful");
+            console.log("user", user);
+            console.log("choice", choice);
+            console.log("account", account);
+            if (user.toLowerCase() == account.toLowerCase()) {
+                if (choice == 0) {
+                    setBackground("Castle_35")
+                    setCastleStep(3.5)
+                } else {
+                    setBackground("Castle_3")
+                    setCastleStep(3)
+                }
+            }
+        });
 
-        if (choice == 0) {
-            setBackground("Castle_35")
-            setCastleStep(3.5)
-        } else {
-            setBackground("Castle_3")
-            setCastleStep(3)
-        }
+        // if (choice == 0) {
+        //     setBackground("Castle_35")
+        //     setCastleStep(3.5)
+        // } else {
+        //     setBackground("Castle_3")
+        //     setCastleStep(3)
+        // }
     }
 
     // click anywhere on screen

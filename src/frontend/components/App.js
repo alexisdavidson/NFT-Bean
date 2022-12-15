@@ -14,6 +14,8 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import PlantingAbi from '../contractsData/Planting.json'
 import PlantingAddress from '../contractsData/Planting-address.json'
+import CastleAbi from '../contractsData/Castle.json'
+import CastleAddress from '../contractsData/Castle-address.json'
 import configContract from "./configContract.json";
 
 const fromWei = (num) => ethers.utils.formatEther(num)
@@ -27,6 +29,7 @@ function App() {
   const [supplyLeft, setSupplyLeft] = useState(totalSupply)
   const [price, setPrice] = useState(0.01)
   const [nft, setNFT] = useState({})
+  const [castle, setCastle] = useState({})
   const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
@@ -255,6 +258,7 @@ const setPlantImage = (plantObjectTemp) => {
 
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const planting = new ethers.Contract(PlantingAddress.address, PlantingAbi.abi, signer)
+    const castle = new ethers.Contract(CastleAddress.address, CastleAbi.abi, signer)
     const amountMintedTemp = parseInt(await nft.totalSupply()) + parseInt(await nft.burnAmount())
     setAmountMinted(amountMintedTemp)
     const supplyLeftTemp = totalSupply - amountMintedTemp
@@ -262,6 +266,7 @@ const setPlantImage = (plantObjectTemp) => {
     setSupplyLeft(supplyLeftTemp)
     setPrice(fromWei(await nft.getPrice()))
     setNFT(nft)
+    setCastle(castle)
     setPlanting(planting)
     nft.on("MintSuccessful", (user) => {
         console.log("MintSuccessful");
@@ -287,43 +292,19 @@ const setPlantImage = (plantObjectTemp) => {
   return (
     <BrowserRouter>
       <div className="App" id="wrapper">
-        
-      <Routes>
-            <Route path="/" element={
-              <>
-                {!menuFarm ? (
-                    <Home web3Handler={web3Handler} account={account} planting={planting} 
-                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-                      changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity} plantPhase={plant}
-                      farmButton={farmButton} >
-                    </Home>
-                ) : (
-                  <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
-                    currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
-                    balance={balance} closeMenu={closeMenu}
-                    beanToUse={beanToUse} castleEnabled={false} >
-                  </Farm>
-                )}
-              </>
-            } />
-            <Route path="/tester" element={
-              <>
-                {!menuFarm ? (
-                    <Home web3Handler={web3Handler} account={account} planting={planting} 
-                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-                      changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity} plantPhase={plant}
-                      farmButton={farmButton} >
-                    </Home>
-                ) : (
-                  <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
-                    currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
-                    balance={balance} closeMenu={closeMenu}
-                    beanToUse={beanToUse} castleEnabled={true} >
-                  </Farm>
-                )}
-              </>
-            } />
-          </Routes>
+          {!menuFarm ? (
+              <Home web3Handler={web3Handler} account={account} planting={planting} 
+                supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
+                changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity} plantPhase={plant}
+                farmButton={farmButton} >
+              </Home>
+          ) : (
+            <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
+              currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
+              balance={balance} closeMenu={closeMenu}
+              beanToUse={beanToUse} castleEnabled={true} castle={castle}>
+            </Farm>
+          )}
       </div>
     </BrowserRouter>
   );
