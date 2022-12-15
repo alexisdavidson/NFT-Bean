@@ -219,6 +219,16 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
         await planting.plant(beanToUseTemp)
     }
 
+    const fullscreenClass = () => {
+        if (castleStep == 0 && plant == lastPlantId) 
+            return "FarmLastPlant"
+        
+        if (castleStep == 2)
+            return ""
+
+        return "fullScreen"
+    }
+
     useEffect(async () => {
         return () => {
             planting?.removeAllListeners("PlantingSuccessful");
@@ -229,7 +239,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
     return (
         <div className={"m-0 p-0 " + background}>
             {/* <div className="m-0 p-0 FarmLastPlant"  onClick={() => checkClickLastPlant()}> */}
-            <div className={ "m-0 p-0 " + (castleStep == 0 && plant == lastPlantId ? "FarmLastPlant" : "fullScreen")} onClick={() => checkClickScreen()}>
+            <div className={ "m-0 p-0 " + (fullscreenClass())} onClick={() => checkClickScreen()}>
                 {/* NAVBAR */}
                 <div className="navbarMobileDiv d-xl-none"> 
                     <Row className="menuMobileCol">

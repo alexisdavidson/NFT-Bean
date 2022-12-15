@@ -53,19 +53,25 @@ body {
   /* background-color: rgb(.5,.5,.5,.5); */
   overflow: hidden;
   position: absolute;
-  left: 25%;
-  width: 22%;
+  left: 35%;
+  width: 12%;
   height: 30%;
   bottom: 30%;
 }
 .goose {
   left: 55%;
 }
+.treasure:hover, .goose:hover, .FarmLastPlant:hover {
+  cursor: pointer;
+}
 
 .fullScreen {
   /* background-color: rgb(.5,.5,.5,.5); */
   width:100%;
   height: 100%;
+}
+.fullScreen:hover {
+  cursor: pointer;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -177,7 +183,7 @@ a:link, a:visited, a:hover, a:active {
   padding: 0;
 }
 
-.plant:hover {
+.plant:hover, .plantDiv:hover {
   cursor: pointer;
 }
 
