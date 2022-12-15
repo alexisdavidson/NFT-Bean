@@ -106,22 +106,22 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
     const pickLoot = async(choice) => {
         console.log("pickLoot", choice)
 
-        await castle.loot(choice)
-        castle.on("LootingSuccessful", (user, choice) => {
-            console.log("LootingSuccessful");
-            console.log("user", user);
-            console.log("choice", choice);
-            console.log("account", account);
-            if (user.toLowerCase() == account.toLowerCase()) {
-                if (choice == 1) {
-                    setBackground("Castle_35")
-                    setCastleStep(3.5)
-                } else {
-                    setBackground("Castle_3")
-                    setCastleStep(3)
-                }
-            }
-        });
+        // await castle.loot(choice)
+        // castle.on("LootingSuccessful", (user, choice) => {
+        //     console.log("LootingSuccessful");
+        //     console.log("user", user);
+        //     console.log("choice", choice);
+        //     console.log("account", account);
+        //     if (user.toLowerCase() == account.toLowerCase()) {
+        //         if (choice == 1) {
+        //             setBackground("Castle_35")
+        //             setCastleStep(3.5)
+        //         } else {
+        //             setBackground("Castle_3")
+        //             setCastleStep(3)
+        //         }
+        //     }
+        // });
 
         // if (choice == 0) {
         //     setBackground("Castle_35")
@@ -149,6 +149,8 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
         }
         else if (castleStep == 2) {
             // Must click precisely on the treasure or the Groove
+                    setBackground("Castle_3")
+                    setCastleStep(3)
         }
         else if (castleStep == 3) {
             setBackground("Castle_4")
@@ -232,10 +234,19 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
         if (castleStep == 0 && plant == lastPlantId && castleLooted == 0) 
             return "FarmLastPlant"
         
-        if (castleStep == 2 || castleStep >= 5 || castleLooted > 0)
-            return ""
+        if (castleStep != 2 && castleStep < 5 && castleLooted == 0 && plant == lastPlantId)
+            return "fullScreen"
 
-        return "fullScreen"
+        return ""
+    }
+
+    const displayClickAnywhereToContinue = () => {
+        return castleStep >= 3 && castleStep <= 4.5
+    }
+    const clickAnywhereToContinueButtonClass = () => {
+        if (castleStep >= 3 && castleStep <= 4.5)
+            return "clickAnywhereToContinueButtonClass"
+        return ""
     }
 
     useEffect(async () => {
@@ -270,8 +281,17 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
 
                 {/* DESKTOP */}
                 <div className="m-0 p-0 container-fluid d-none d-xl-block">
+                    {/* CLICK INDICATION */}
+                    <div className="clickAnywhereToContinueDiv">
+                        {displayClickAnywhereToContinue() ? (
+                            <>
+                                <div className={"clickAnywhereToContinue"} >CLICK ANYWHERE TO CONTINUE...</div>
+                            </>
+                        ) : ( <></> )}
+                    </div>
+                    
                     {/* BUTTONS */}
-                    <Row className="m-0 p-0" style={{marginTop: "5vh"}}>
+                    <Row className={"m-0 p-0 " + clickAnywhereToContinueButtonClass()} style={{marginTop: "5vh"}}>
                         <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                             <Row className="mx-0 p-0">
                                 {!stuckInCastleSequence() ? (
@@ -294,6 +314,14 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
 
                 {/* MOBILE */}
                 <div className="m-0 p-0 d-xl-none">
+                    {/* TAP INDICATION */}
+                    <div className="clickAnywhereToContinueDiv">
+                        {displayClickAnywhereToContinue() ? (
+                            <>
+                                <div className={"clickAnywhereToContinue"} >TAP ANYWHERE TO CONTINUE</div>
+                            </>
+                        ) : ( <></> )}
+                    </div>
                     <Row className="m-0" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                         <div className="longMobileButton">
                             {getTopText()}

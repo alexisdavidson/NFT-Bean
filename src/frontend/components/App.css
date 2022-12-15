@@ -154,7 +154,7 @@ a:link, a:visited, a:hover, a:active {
   height: 10rem;
   padding: 6vh;
   line-height: 1.6rem;
-  margin-top: 8vh;
+  margin-top: 4vh;
   z-index: 1;
 }
 
@@ -172,6 +172,33 @@ a:link, a:visited, a:hover, a:active {
   height: 30%;
 }
 
+.clickAnywhereToContinueDiv {
+  position: absolute;
+  top: 2%;
+  margin-left: auto; 
+  margin-right: auto;
+  padding: 0;
+  
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clickAnywhereToContinue {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.clickAnywhereToContinueButtonClass {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  bottom: 0%;
+  
+  display: flex;
+  align-items: flex-end;
+}
 
 .plantDiv {
   position: absolute;
@@ -326,7 +353,7 @@ a:link, a:visited, a:hover, a:active {
     width: 100%;
     margin: 0;
     padding: 1vh;
-    z-index: 1;
+    z-index: 50;
   }
   .menuMobileCol {
     display: flex;
@@ -334,6 +361,7 @@ a:link, a:visited, a:hover, a:active {
     justify-content: end;
     margin: 0;
     padding: 0;
+    z-index: 50;
   }
   .homeMobileCol {
     display: flex;
@@ -341,6 +369,7 @@ a:link, a:visited, a:hover, a:active {
     justify-content: start;
     margin: 0;
     padding: 0;
+    z-index: 50;
   }
 
   .menuMobileImage {
@@ -348,6 +377,7 @@ a:link, a:visited, a:hover, a:active {
   }
   .homeMobileImage {
     width: 25%;
+    z-index: 50;
   }
   
 
