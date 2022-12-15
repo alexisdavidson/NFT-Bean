@@ -8,7 +8,7 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 5
 
-const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castleEnabled }) => {
+const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castle, castleEnabled }) => {
     const [background, setBackground] = useState("Farm")
     const [castleStep, setCastleStep] = useState(0)
 
@@ -71,8 +71,58 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
         if (castleStep == 1) {
             topText = "YOU HAVE REACHED THE GIANT ISLE. CLICK THE CASTLE TO ENTER"
         }
+        else if (castleStep == 2) {
+            topText = "SELECT YOUR REWARD! A TREASURE BOX OR A GOOSE? CAREFUL! CHOOSE WISELY!"
+        }
+        else if (castleStep == 3) {
+            topText = "OH NO! YOU WOKE THE GIANT! RUN!!!"
+        }
+        else if (castleStep == 3.5) {
+            topText = "OH NO! YOU WOKE THE GIANT! THE TREASURE BOX IS TOO HEAVY! YOU CAN'T CARRY IT ALONG! RUN!!!"
+        }
+        else if (castleStep == 4) {
+            topText = "TINKER QUICKLY CUTS THE BEANSTALK TO AVOID THE GIANT FROM COMING DOWN TO THE GROUND"
+        }
+        else if (castleStep == 4.5) {
+            topText = "TINKER QUICKLY CUTS THE BEANSTALK TO AVOID THE GIANT FROM COMING DOWN TO THE GROUND"
+        }
+        else if (castleStep == 5) {
+            topText = "THE BEANSTALK IS GONE BUT YOU GOT A GOOSE, SEE YOU SOON IN THE CHAPTER 2, GOOSEBUMPER!"
+        }
+        else if (castleStep == 5.5) {
+            topText = "YOU ONLY MANAGED TO LOOT 1 TALE TOKEN IN THE CHAOS! THERE'S NO WAY TO GO UP ANYMORE!"
+        }
 
         return topText
+    }
+
+    const pickLoot = async(choice) => {
+        console.log("pickLoot", choice)
+
+        // await castle.loot(choice)
+        // castle.on("LootingSuccessful", (user, choice) => {
+        //     console.log("LootingSuccessful");
+        //     console.log("user", user);
+        //     console.log("choice", choice);
+        //     console.log("account", account);
+        //     if (user.toLowerCase() == account.toLowerCase()) {
+        //         if (choice == 0) {
+        //             setBackground("Castle_35")
+        //             setCastleStep(3.5)
+        //         } else {
+        //             setBackground("Castle_3")
+        //             setCastleStep(3)
+        //         }
+        //     }
+        // });
+
+        if (choice == 0) {
+            setBackground("Castle_35")
+            setCastleStep(3.5)
+        } else {
+            setBackground("Castle_3")
+            setCastleStep(3)
+        }
     }
 
     // click anywhere on screen
@@ -87,6 +137,25 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
         else if (castleStep == 1) {
             setBackground("Castle_2")
             setCastleStep(2)
+        }
+        else if (castleStep == 2) {
+            // Must click precisely on the treasure or the Groove
+        }
+        else if (castleStep == 3) {
+            setBackground("Castle_4")
+            setCastleStep(4)
+        }
+        else if (castleStep == 3.5) {
+            setBackground("Castle_45")
+            setCastleStep(4.5)
+        }
+        else if (castleStep == 4) {
+            setBackground("Castle_5")
+            setCastleStep(5)
+        }
+        else if (castleStep == 4.5) {
+            setBackground("Castle_55")
+            setCastleStep(5.5)
         }
     }
   
@@ -149,18 +218,18 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
         console.log("planting", planting)
         await planting.plant(beanToUseTemp)
     }
-    
 
     useEffect(async () => {
         return () => {
             planting?.removeAllListeners("PlantingSuccessful");
+            castle?.removeAllListeners("LootingSuccessful");
         };
     }, [])
 
     return (
         <div className={"m-0 p-0 " + background}>
             {/* <div className="m-0 p-0 FarmLastPlant"  onClick={() => checkClickLastPlant()}> */}
-            <div className={ "m-0 p-0 " + (castleStep == 0 && plant == lastPlantId ? "FarmLastPlant" : "")} onClick={() => checkClickScreen()}>
+            <div className={ "m-0 p-0 " + (castleStep == 0 && plant == lastPlantId ? "FarmLastPlant" : "fullScreen")} onClick={() => checkClickScreen()}>
                 {/* NAVBAR */}
                 <div className="navbarMobileDiv d-xl-none"> 
                     <Row className="menuMobileCol">
@@ -212,6 +281,16 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
                 <div className="plantDiv">
                     {castleStep == 0 && plant != lastPlantId ? (
                         <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
+                    ) : ( <></> )}
+                </div>
+
+                {/* TREASURE AND GOOSE */}
+                <div className="treasureAndGooseDiv">
+                    {castleStep == 2 ? (
+                        <>
+                            <div className={"treasure"} onClick={() => pickLoot(0)}></div>
+                            <div className={"goose"} onClick={() => pickLoot(1)}></div>
+                        </>
                     ) : ( <></> )}
                 </div>
                 

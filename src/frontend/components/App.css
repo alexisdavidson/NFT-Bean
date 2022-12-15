@@ -11,7 +11,7 @@ body {
   overflow: hidden;
 }
 
-.Home, .Farm, .Castle_1, .Castle_2 {
+.Home, .Farm, .Castle_1, .Castle_2, .Castle_3, .Castle_35, .Castle_4, .Castle_45, .Castle_5, .Castle_55 {
   background-image: url("./assets/bg_home.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -29,6 +29,43 @@ body {
 }
 .Castle_2 {
   background-image: url("./assets/castle/Castle_2.jpg");
+}
+.Castle_3 {
+  background-image: url("./assets/castle/Castle_3_Goose.jpg");
+}
+.Castle_35 {
+  background-image: url("./assets/castle/Castle_3_Treasure.jpg");
+}
+.Castle_4 {
+  background-image: url("./assets/castle/Castle_4_Goose.jpg");
+}
+.Castle_45 {
+  background-image: url("./assets/castle/Castle_4_Treasure.jpg");
+}
+.Castle_5 {
+  background-image: url("./assets/castle/Castle_5_Goose.jpg");
+}
+.Castle_55 {
+  background-image: url("./assets/castle/Castle_5_Treasure.jpg");
+}
+
+.treasure, .goose {
+  /* background-color: rgb(.5,.5,.5,.5); */
+  overflow: hidden;
+  position: absolute;
+  left: 25%;
+  width: 22%;
+  height: 30%;
+  bottom: 30%;
+}
+.goose {
+  left: 55%;
+}
+
+.fullScreen {
+  /* background-color: rgb(.5,.5,.5,.5); */
+  width:100%;
+  height: 100%;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -210,6 +247,41 @@ a:link, a:visited, a:hover, a:active {
 
 
 @media only screen and (max-width: 1199.98px){
+  
+.treasure, .goose {
+  left: 0%;
+  width: 48%;
+}
+.goose {
+  left: 55%;
+}
+
+.Castle_1 {
+  background-image: url("./assets/castle/mobile/Castle_1.jpg");
+}
+.Castle_2 {
+  background-image: url("./assets/castle/mobile/Castle_2.jpg");
+}
+.Castle_3 {
+  background-image: url("./assets/castle/mobile/Castle_3_Goose.jpg");
+}
+.Castle_35 {
+  background-image: url("./assets/castle/mobile/Castle_3_Treasure.jpg");
+}
+.Castle_4 {
+  background-image: url("./assets/castle/mobile/Castle_4_Goose.jpg");
+}
+.Castle_45 {
+  background-image: url("./assets/castle/mobile/Castle_4_Treasure.jpg");
+}
+.Castle_5 {
+  background-image: url("./assets/castle/mobile/Castle_5_Goose.jpg");
+}
+.Castle_55 {
+  background-image: url("./assets/castle/mobile/Castle_5_Treasure.jpg");
+}
+
+
   .actionFrame {
     background-image: url("./assets/mobile/mobile_menu.png");
     top : 15%;
