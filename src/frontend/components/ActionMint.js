@@ -6,7 +6,7 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const mintEnabled = true
 
-const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, plantPhase, buttonLinkOnClick, price, supplyLeft, changeQuantity, mintButton, setQuantity, quantity}) => {
+const HowTo = ({farmButton, web3Handler, account, balance, plantPhase, price, supplyLeft, changeQuantity, mintButton, quantity}) => {
 
     return (
         <Row className="actionFrame actionMintFrame">
@@ -66,7 +66,7 @@ const HowTo = ({closeMenu, setMenuFarm, web3Handler, nft, account, balance, plan
                                 <div className="">BEAN MINTED. PLANT YOUR BEAN & START YOUR MAGICAL JOURNEY TODAY!</div>
                             </Row>
                             <Row className="mx-auto mt-0 mb-4 mintFrame">
-                                <div className="actionButton" onClick={async () => {closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}} >GO TO FARM</div>
+                                <div className="actionButton" onClick={farmButton} >GO TO FARM</div>
                             </Row>
                         </>
                     )}

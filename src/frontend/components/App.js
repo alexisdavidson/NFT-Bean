@@ -64,6 +64,13 @@ function App() {
   const timeleftRef = useRef();
   timeleftRef.current = timeleft;
 
+  const farmButton = async () => {
+    closeMenu(); 
+    if (account == null) 
+      await web3Handler(); 
+    setMenuFarm(true);
+  }
+
   const enterCastleFunction = () => {
     console.log("enterCastleFunction")
   }
@@ -289,16 +296,15 @@ const setPlantImage = (plantObjectTemp) => {
             <Route path="/" element={
               <>
                 {!menuFarm ? (
-                    <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
+                    <Home web3Handler={web3Handler} account={account} planting={planting} 
                       supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-                      changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}
-                      >
+                      changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity} plantPhase={plant}
+                      farmButton={farmButton} >
                     </Home>
                 ) : (
-                  <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
-                    currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
-                    supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-                    changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
+                  <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
+                    currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
+                    balance={balance} closeMenu={closeMenu}
                     beanToUse={beanToUse} castleEnabled={false} enterCastleFunction={enterCastleFunction}>
                   </Farm>
                 )}
@@ -307,16 +313,15 @@ const setPlantImage = (plantObjectTemp) => {
             <Route path="/tester" element={
               <>
                 {!menuFarm ? (
-                    <Home web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
-                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-                      changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} plantPhase={plant}
-                      >
+                    <Home web3Handler={web3Handler} account={account} planting={planting} 
+                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu}
+                      changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity} plantPhase={plant}
+                      farmButton={farmButton} >
                     </Home>
                 ) : (
-                  <Farm plant={plant} plantObject={plantObject} loadPlant={loadPlant} timeleft={timeleft}
-                    currentTimestamp={currentTimestamp} provider={provider} web3Handler={web3Handler} account={account} nft={nft} planting={planting} setMenuFarm={setMenuFarm}
-                    supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
-                    changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
+                  <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
+                    currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
+                    balance={balance} closeMenu={closeMenu}
                     beanToUse={beanToUse} castleEnabled={true} enterCastleFunction={enterCastleFunction}>
                   </Farm>
                 )}

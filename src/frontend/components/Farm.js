@@ -13,7 +13,7 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 5
 
-const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, loadPlant, plantObject, web3Handler, planting, account, nft, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity, castleEnabled, enterCastleFunction }) => {
+const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castleEnabled, enterCastleFunction }) => {
     const plantingRef = useRef();
     plantingRef.current = planting;
 
@@ -190,18 +190,6 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, loadPlant, plantOb
                     )}
                 </div>
                 
-
-                {/* FRAME */}
-                {
-                    {
-                    '0': <></>,
-                    '1': <Mint web3Handler={web3Handler} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} 
-                            changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} />,
-                    '2': <HowTo />,
-                    '3': <AboutUs />,
-                    '10': <Menu closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick}/>,
-                    }[menu]
-                }
             </div>
         </div>
     );

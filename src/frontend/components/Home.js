@@ -13,7 +13,7 @@ import AboutUs from './ActionAboutUs'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, plantPhase, setMenuFarm, account, nft, price, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, setQuantity, quantity }) => {
+const Home = ({ farmButton, web3Handler, plantPhase, account, price, supplyLeft, balance, closeMenu, toggleMenu, menu, changeQuantity, mintButton, quantity }) => {
 
     const buttonLinkOnClick = async (elementId) => {
         console.log("buttonLinkOnClick: " + elementId)
@@ -51,7 +51,7 @@ const Home = ({ web3Handler, plantPhase, setMenuFarm, account, nft, price, suppl
                             </div>
                         </Row>
                         <Row className="m-0 p-0">
-                            <div className="actionButton" onClick={async () => {closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}} >
+                            <div className="actionButton" onClick={farmButton} >
                                 FARM
                             </div>
                         </Row>
@@ -90,13 +90,12 @@ const Home = ({ web3Handler, plantPhase, setMenuFarm, account, nft, price, suppl
             {
                 {
                 '0': <></>,
-                '1': <Mint web3Handler={web3Handler} account={account} nft={nft} supplyLeft={supplyLeft} balance={balance} 
-                        changeQuantity={changeQuantity} mintButton={mintButton} setQuantity={setQuantity} quantity={quantity} 
-                        buttonLinkOnClick={buttonLinkOnClick} closeMenu={closeMenu} setMenuFarm={setMenuFarm} 
-                        price={price} plantPhase={plantPhase} />,
+                '1': <Mint web3Handler={web3Handler} account={account} supplyLeft={supplyLeft} balance={balance} 
+                        changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity}
+                        price={price} plantPhase={plantPhase} farmButton={farmButton} />,
                 '2': <HowTo />,
                 '3': <AboutUs />,
-                '10': <Menu web3Handler={web3Handler} account={account} closeMenu={closeMenu} toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick} setMenuFarm={setMenuFarm} />,
+                '10': <Menu toggleMenu={toggleMenu} buttonLinkOnClick={buttonLinkOnClick} farmButton={farmButton} />,
                 }[menu]
             }
         </div>

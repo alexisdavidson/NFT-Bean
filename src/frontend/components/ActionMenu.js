@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Image, Row, Col, Button } from 'react-bootstrap'
 
-const Menu = ({web3Handler, account, closeMenu, toggleMenu, buttonLinkOnClick, setMenuFarm}) => {
+const Menu = ({toggleMenu, buttonLinkOnClick, farmButton}) => {
 
     return (
         <Row className="actionFrame">
@@ -11,7 +11,7 @@ const Menu = ({web3Handler, account, closeMenu, toggleMenu, buttonLinkOnClick, s
                     <div className="mobileMenuButton" onClick={() => buttonLinkOnClick('openseaLink')}>OPENSEA</div>
                 </Row>
                 <Row className="m-0 p-0">
-                    <div className="mobileMenuButton" onClick={async () => { closeMenu(); if (account == null) await web3Handler(); setMenuFarm(true);}}>FARM</div>
+                    <div className="mobileMenuButton" onClick={farmButton}>FARM</div>
                 </Row>
                 <Row className="m-0 p-0">
                     <div className="mobileMenuButton" onClick={() => toggleMenu(2)}>HOW TO</div>
