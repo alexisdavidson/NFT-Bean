@@ -80,7 +80,7 @@ describe("NFT & Planting", async function() {
     describe("Castle Loot", function() {
         it("Should loot the castle", async function() {
             await expect(castle.connect(addr1).setTokenAddress(addr1.address)).to.be.revertedWith("Ownable: caller is not the owner");
-            await expect(castle.connect(addr1).loot(0)).to.be.revertedWith("The user is not at the last planting phase.");
+            await expect(castle.connect(addr1).loot(1)).to.be.revertedWith("The user is not at the last planting phase.");
             // await expect(nftGoose.connect(addr1).mintForUser(addr1.address)).to.be.revertedWith("Only the castle can mint a Goose!");
 
             // Go through planting
@@ -92,13 +92,14 @@ describe("NFT & Planting", async function() {
             await helpers.time.increase(18 * 3600);
             await planting.connect(addr1).plant(0)
             await helpers.time.increase(48 * 3600);
-            await expect(castle.connect(addr1).loot(0)).to.be.revertedWith("The user is not at the last planting phase.");
+            await expect(castle.connect(addr1).loot(1)).to.be.revertedWith("The user is not at the last planting phase.");
             await planting.connect(addr1).plant(0)
-            await expect(castle.connect(addr1).loot(0)).to.be.revertedWith("The user has not finished its planting phase");
+            await expect(castle.connect(addr1).loot(1)).to.be.revertedWith("The user has not finished its planting phase");
             await helpers.time.increase(96 * 3600);
             
-            await castle.connect(addr1).loot(0); // Treasure (Token)
-            await expect(castle.connect(addr1).loot(0)).to.be.revertedWith("This user already looted the castle.");
+            await expect(castle.connect(addr1).loot(0)).to.be.revertedWith("Invalid choice");
+            await castle.connect(addr1).loot(1); // Treasure (Token)
+            await expect(castle.connect(addr1).loot(1)).to.be.revertedWith("This user already looted the castle.");
             expect(await tokenEgg.balanceOf(castle.address)).to.equal(5_000 - 1)
             expect(await tokenEgg.balanceOf(addr1.address)).to.equal(1)
 
@@ -111,11 +112,11 @@ describe("NFT & Planting", async function() {
             await planting.connect(addr2).plant(0)
             await helpers.time.increase(48 * 3600);
             await planting.connect(addr2).plant(0)
-            await expect(castle.connect(addr2).loot(0)).to.be.revertedWith("The user has not finished its planting phase");
+            await expect(castle.connect(addr2).loot(2)).to.be.revertedWith("The user has not finished its planting phase");
             await helpers.time.increase(96 * 3600);
             
-            await castle.connect(addr2).loot(1); // Goose (NFT)
-            await expect(castle.connect(addr2).loot(1)).to.be.revertedWith("This user already looted the castle.");
+            await castle.connect(addr2).loot(2); // Goose (NFT)
+            await expect(castle.connect(addr2).loot(2)).to.be.revertedWith("This user already looted the castle.");
             expect(await tokenEgg.balanceOf(castle.address)).to.equal(5_000 - 1)
             expect(await nftGoose.ownerOf(1)).to.equal(addr2.address)
         })

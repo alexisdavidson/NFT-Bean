@@ -30,6 +30,7 @@ function App() {
   const [price, setPrice] = useState(0.01)
   const [nft, setNFT] = useState({})
   const [castle, setCastle] = useState({})
+  const [castleLooted, setCastleLooted] = useState(0)
   const [planting, setPlanting] = useState({})
   const [menu, setMenu] = useState(0)
   const [quantity, setQuantity] = useState(1)
@@ -265,6 +266,9 @@ const setPlantImage = (plantObjectTemp) => {
     console.log("tickets left: " + supplyLeftTemp)
     setSupplyLeft(supplyLeftTemp)
     setPrice(fromWei(await nft.getPrice()))
+    const userLooted = parseInt(await castle.userLooted(acc))
+    console.log("userLooted", userLooted)
+    setCastleLooted(userLooted)
     setNFT(nft)
     setCastle(castle)
     setPlanting(planting)
@@ -302,7 +306,7 @@ const setPlantImage = (plantObjectTemp) => {
             <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
               currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
               balance={balance} closeMenu={closeMenu}
-              beanToUse={beanToUse} castleEnabled={true} castle={castle}>
+              beanToUse={beanToUse} castleEnabled={true} castle={castle} castleLooted={castleLooted} >
             </Farm>
           )}
       </div>

@@ -9,11 +9,11 @@ import "./NFT_Goose.sol";
 import "./Planting.sol";
 
 contract Castle is Ownable, ReentrancyGuard {
-    ERC20 private token;
-    NFT_Goose private nft;
-    Planting private planting;
+    ERC20 public token;
+    NFT_Goose public nft;
+    Planting public planting;
 
-    mapping(address => bool) private userAlreadyLooted;
+    mapping(address => uint256) public userLooted;
 
     event LootingSuccessful(address user, uint256 choice);
 
@@ -27,15 +27,16 @@ contract Castle is Ownable, ReentrancyGuard {
     }
 
     function loot(uint256 _choice) public nonReentrant {
-        require(userAlreadyLooted[msg.sender] == false, "This user already looted the castle.");
+        require(_choice == 1 || _choice == 2, "Invalid choice");
+        require(userLooted[msg.sender] == 0, "This user already looted the castle.");
         require(planting.getPlant(msg.sender).phase == 4, "The user is not at the last planting phase.");
         require(planting.currentPhaseFinished(msg.sender), "The user has not finished its planting phase");
 
-        userAlreadyLooted[msg.sender] = true;
+        userLooted[msg.sender] = _choice;
 
-        if (_choice == 0) { // Treasure
+        if (_choice == 1) { // Treasure
             token.transfer(msg.sender, 1);
-        } else { // Goose
+        } else if (_choice == 2) { // Goose
             nft.mintForUser(msg.sender);
         }
 

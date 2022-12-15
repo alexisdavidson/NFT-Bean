@@ -8,7 +8,7 @@ const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 5
 
-const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castle, castleEnabled }) => {
+const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castle, castleEnabled }) => {
     const [background, setBackground] = useState("Farm")
     const [castleStep, setCastleStep] = useState(0)
 
@@ -18,7 +18,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
     const zeroPad = (num, places) => String(num).padStart(places, '0')
 
     const getTopText = () => {
-        if (castleStep > 0)
+        if (castleStep > 0 || castleLooted > 0)
             return getTopCastleText()
         
         if (currentTimestamp == 0)
@@ -68,7 +68,14 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
 
     const getTopCastleText = () => {
         let topText = ""
-        if (castleStep == 1) {
+
+        if (castleLooted == 1) {
+            topText = "YOU ONLY MANAGED TO LOOT 1 TALE TOKEN IN THE CHAOS! THERE'S NO WAY TO GO UP ANYMORE!"
+        }
+        else if (castleLooted == 2) {
+            topText = "THE BEANSTALK IS GONE BUT YOU GOT A GOOSE, SEE YOU SOON IN THE CHAPTER 2, GOOSEBUMPER!"
+        }
+        else if (castleStep == 1) {
             topText = "YOU HAVE REACHED THE GIANT ISLE. CLICK THE CASTLE TO ENTER"
         }
         else if (castleStep == 2) {
@@ -106,7 +113,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
             console.log("choice", choice);
             console.log("account", account);
             if (user.toLowerCase() == account.toLowerCase()) {
-                if (choice == 0) {
+                if (choice == 1) {
                     setBackground("Castle_35")
                     setCastleStep(3.5)
                 } else {
@@ -127,6 +134,8 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
 
     // click anywhere on screen
     const checkClickScreen = () => {
+        if (castleLooted != 0)
+            return
         if (castleStep == 0 && plant == lastPlantId) {
             console.log("castleEnabled: " + castleEnabled)
             if (castleEnabled) {
@@ -220,16 +229,21 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
     }
 
     const fullscreenClass = () => {
-        if (castleStep == 0 && plant == lastPlantId) 
+        if (castleStep == 0 && plant == lastPlantId && castleLooted == 0) 
             return "FarmLastPlant"
         
-        if (castleStep == 2)
+        if (castleStep == 2 || castleStep >= 5 || castleLooted > 0)
             return ""
 
         return "fullScreen"
     }
 
     useEffect(async () => {
+        if (castleLooted == 1)
+            setBackground("Castle_55")
+        else if (castleLooted == 2)
+            setBackground("Castle_5")
+
         return () => {
             planting?.removeAllListeners("PlantingSuccessful");
             castle?.removeAllListeners("LootingSuccessful");
@@ -289,7 +303,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
 
                 {/* LAST PLANT */}
                 <div className="plantDiv">
-                    {castleStep == 0 && plant != lastPlantId ? (
+                    {castleLooted == 0 && castleStep == 0 && plant != lastPlantId ? (
                         <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
                     ) : ( <></> )}
                 </div>
@@ -298,8 +312,8 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
                 <div className="treasureAndGooseDiv">
                     {castleStep == 2 ? (
                         <>
-                            <div className={"treasure"} onClick={() => pickLoot(0)}></div>
-                            <div className={"goose"} onClick={() => pickLoot(1)}></div>
+                            <div className={"treasure"} onClick={() => pickLoot(1)}></div>
+                            <div className={"goose"} onClick={() => pickLoot(2)}></div>
                         </>
                     ) : ( <></> )}
                 </div>
