@@ -2,24 +2,25 @@ import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
 import { Image, Row, Col, Button } from 'react-bootstrap'
 import leftArrow from './assets/left_arrow.svg'
-import menuIcon from './assets/mobile/menu.png'
 import homeIcon from './assets/mobile/home.png'
-import HowTo from './ActionHowTo'
-import Menu from './ActionMenu'
-import Mint from './ActionMint'
-import AboutUs from './ActionAboutUs'
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const lastPlantId = 5
 
-const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castleEnabled, enterCastleFunction }) => {
+const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3Handler, planting, account, nft, balance, closeMenu, castleEnabled }) => {
+    const [background, setBackground] = useState("Farm")
+    const [castleStep, setCastleStep] = useState(0)
+
     const plantingRef = useRef();
     plantingRef.current = planting;
 
     const zeroPad = (num, places) => String(num).padStart(places, '0')
 
     const getTopText = () => {
+        if (castleStep > 0)
+            return getTopCastleText()
+        
         if (currentTimestamp == 0)
             return ""
         
@@ -61,12 +62,31 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
         return topText
     }
 
-    // click anywhere on screen for last plant
-    const checkClickLastPlant = () => {
-        if (plant == lastPlantId) {
+    const stuckInCastleSequence = () => {
+        return castleStep > 0 && castleStep < 5
+    }
+
+    const getTopCastleText = () => {
+        let topText = ""
+        if (castleStep == 1) {
+            topText = "YOU HAVE REACHED THE GIANT ISLE. CLICK THE CASTLE TO ENTER"
+        }
+
+        return topText
+    }
+
+    // click anywhere on screen
+    const checkClickScreen = () => {
+        if (castleStep == 0 && plant == lastPlantId) {
             console.log("castleEnabled: " + castleEnabled)
-            if (castleEnabled)
-                enterCastleFunction()
+            if (castleEnabled) {
+                setBackground("Castle_1")
+                setCastleStep(1)
+            }
+        }
+        else if (castleStep == 1) {
+            setBackground("Castle_2")
+            setCastleStep(2)
         }
     }
   
@@ -138,14 +158,16 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
     }, [])
 
     return (
-        <div className="m-0 p-0 Farm">
+        <div className={"m-0 p-0 " + background}>
             {/* <div className="m-0 p-0 FarmLastPlant"  onClick={() => checkClickLastPlant()}> */}
-            <div className={ "m-0 p-0 " + (plant == lastPlantId ? "FarmLastPlant" : "")} onClick={() => checkClickLastPlant()}>
+            <div className={ "m-0 p-0 " + (castleStep == 0 && plant == lastPlantId ? "FarmLastPlant" : "")} onClick={() => checkClickScreen()}>
                 {/* NAVBAR */}
                 <div className="navbarMobileDiv d-xl-none"> 
                     <Row className="menuMobileCol">
                         <Col className="col-6 homeMobileCol">
-                            <Image src={homeIcon} className = "homeMobileImage"  onClick={() => {closeMenu(); buttonLinkOnClick('backLink')}} />
+                            {!stuckInCastleSequence() ? (
+                                <Image src={homeIcon} className = "homeMobileImage"  onClick={() => {closeMenu(); buttonLinkOnClick('backLink')}} />
+                            ) : ( <></> )}
                         </Col>
                         <Col className="col-6 menuMobileCol">
                             {/* <Image src={menuIcon} className = "menuMobileImage"  onClick={() => toggleMenu(10)} /> */}
@@ -153,15 +175,18 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
                     </Row>
                 </div>
 
+                {/* DESKTOP */}
                 <div className="m-0 p-0 container-fluid d-none d-xl-block">
                     {/* BUTTONS */}
                     <Row className="m-0 p-0" style={{marginTop: "5vh"}}>
                         <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                             <Row className="mx-0 p-0">
-                                <div className="shortButton" onClick={() => buttonLinkOnClick('backLink')} >
-                                    <Image src={leftArrow} className ="leftArrowImage" />
-                                    <a href="/" id="backLink"></a>
-                                </div>
+                                {!stuckInCastleSequence() ? (
+                                    <div className="shortButton" onClick={() => buttonLinkOnClick('backLink')} >
+                                        <Image src={leftArrow} className ="leftArrowImage" />
+                                        <a href="/" id="backLink"></a>
+                                    </div>
+                                ) : ( <></> )}
                             </Row>
                         </Col>
                         <Col className="mx-0 p-0 my-4 col-6" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
@@ -174,6 +199,7 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
                     </Row>
                 </div>
 
+                {/* MOBILE */}
                 <div className="m-0 p-0 d-xl-none">
                     <Row className="m-0" style={{backgroundColor: "rgb(1,1,0,0.0)"}}>
                         <div className="longMobileButton">
@@ -182,12 +208,11 @@ const Farm = ({ beanToUse, currentTimestamp, plant, timeleft, plantObject, web3H
                     </Row>
                 </div>
 
+                {/* LAST PLANT */}
                 <div className="plantDiv">
-                    {plant != lastPlantId ? (
+                    {castleStep == 0 && plant != lastPlantId ? (
                         <Image src={`/plant_${plant}.png`} className={"plant plant_" + plant} onClick={plantButton} />
-                    ) : (
-                        <></>
-                    )}
+                    ) : ( <></> )}
                 </div>
                 
             </div>

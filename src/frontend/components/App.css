@@ -11,7 +11,7 @@ body {
   overflow: hidden;
 }
 
-.Home, .Farm {
+.Home, .Farm, .Castle_1, .Castle_2 {
   background-image: url("./assets/bg_home.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,6 +23,12 @@ body {
 
 .Farm {
   background-image: url("./assets/farm.jpg");
+}
+.Castle_1 {
+  background-image: url("./assets/castle/Castle_1.jpg");
+}
+.Castle_2 {
+  background-image: url("./assets/castle/Castle_2.jpg");
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -100,8 +106,8 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .longMobileButton {
-  background-image: url("./assets/button_short.png");
-  width: 20rem;
+  background-image: url("./assets/mobile/longButtonMobile.png");
+  width: 23rem;
   height: 10rem;
   padding: 6vh;
   line-height: 1.6rem;

@@ -70,10 +70,6 @@ function App() {
       await web3Handler(); 
     setMenuFarm(true);
   }
-
-  const enterCastleFunction = () => {
-    console.log("enterCastleFunction")
-  }
   
   const changeQuantity = (direction) => {
       if (quantity + direction < 1)
@@ -305,7 +301,7 @@ const setPlantImage = (plantObjectTemp) => {
                   <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
                     currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
                     balance={balance} closeMenu={closeMenu}
-                    beanToUse={beanToUse} castleEnabled={false} enterCastleFunction={enterCastleFunction}>
+                    beanToUse={beanToUse} castleEnabled={false} >
                   </Farm>
                 )}
               </>
@@ -314,7 +310,7 @@ const setPlantImage = (plantObjectTemp) => {
               <>
                 {!menuFarm ? (
                     <Home web3Handler={web3Handler} account={account} planting={planting} 
-                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu}
+                      supplyLeft={supplyLeft} balance={balance} closeMenu={closeMenu} toggleMenu={toggleMenu} menu={menu} price={price}
                       changeQuantity={changeQuantity} mintButton={mintButton} quantity={quantity} plantPhase={plant}
                       farmButton={farmButton} >
                     </Home>
@@ -322,7 +318,7 @@ const setPlantImage = (plantObjectTemp) => {
                   <Farm plant={plant} plantObject={plantObject} timeleft={timeleft}
                     currentTimestamp={currentTimestamp} web3Handler={web3Handler} account={account} nft={nft} planting={planting}
                     balance={balance} closeMenu={closeMenu}
-                    beanToUse={beanToUse} castleEnabled={true} enterCastleFunction={enterCastleFunction}>
+                    beanToUse={beanToUse} castleEnabled={true} >
                   </Farm>
                 )}
               </>
