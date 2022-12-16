@@ -7,7 +7,7 @@ contract Token_Egg is ERC20 {
     constructor(address _castleAddress, address _teamWallet) ERC20("$TALE", "$TALE") {
         // 1,000,000 initial supply
         _mint(_castleAddress, 5_000);
-        _mint(_teamWallet, 995_000);
+        _mint(_teamWallet, 495_000);
     }
 
     function decimals() public view virtual override returns (uint8) {

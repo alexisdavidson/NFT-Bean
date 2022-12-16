@@ -123,13 +123,13 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
         //     }
         // });
 
-        // if (choice == 0) {
-        //     setBackground("Castle_35")
-        //     setCastleStep(3.5)
-        // } else {
-        //     setBackground("Castle_3")
-        //     setCastleStep(3)
-        // }
+        if (choice == 1) {
+            setBackground("Castle_35")
+            setCastleStep(3.5)
+        } else {
+            setBackground("Castle_3")
+            setCastleStep(3)
+        }
     }
 
     // click anywhere on screen
@@ -149,8 +149,6 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
         }
         else if (castleStep == 2) {
             // Must click precisely on the treasure or the Groove
-                    setBackground("Castle_3")
-                    setCastleStep(3)
         }
         else if (castleStep == 3) {
             setBackground("Castle_4")
