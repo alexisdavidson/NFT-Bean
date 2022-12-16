@@ -27,8 +27,8 @@ async function main() {
   // console.log("Goerli test functions called")
 
   // Phase 2 deployment code
-  const plantingAddress = "0x2792a863fcD0e2ad62272f6aD6E8746DBC527aF6" // Goerli
-  // const plantingAddress = "0x2792a863fcD0e2ad62272f6aD6E8746DBC527aF6" // Mainnet
+  // const plantingAddress = "0x2792a863fcD0e2ad62272f6aD6E8746DBC527aF6" // Goerli
+  const plantingAddress = "0xEBfCF2708F4DA3E07Eb55c8D599e97fEE4c2ACF5" // Mainnet
 
   const NFT_Goose = await ethers.getContractFactory("NFT_Goose");
   const Token_Egg = await ethers.getContractFactory("Token_Egg");

@@ -1,4 +1,4 @@
 module.exports = [
-    "0x55e3806b4d9E970672D42A20A51d3646B45B9474", // castle address
-    "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd" // team address
+    "0xB544f3504013Bdc7C713EaFDDaf88e3761CAC66a", // castle address
+    "0x8065abFc3DA7678B36cFCbddA2CcFdD891D60E8E" // team address
 ];

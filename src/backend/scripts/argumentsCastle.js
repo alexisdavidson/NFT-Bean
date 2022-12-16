@@ -1,4 +1,4 @@
 module.exports = [
-    "0x2792a863fcD0e2ad62272f6aD6E8746DBC527aF6", // planting address
-    "0x46Ce726522BEc0c410D8896ba16A330B416f1cf0" // nft_goose address
+    "0xEBfCF2708F4DA3E07Eb55c8D599e97fEE4c2ACF5", // planting address
+    "0x1fD9fB121571BA1Ece666491f594da657216E3EC" // nft_goose address
 ];
