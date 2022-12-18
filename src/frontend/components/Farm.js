@@ -343,6 +343,17 @@ const Farm = ({ castleLooted, beanToUse, currentTimestamp, plant, timeleft, plan
                         </>
                     ) : ( <></> )}
                 </div>
+
+                {/* FINAL GOOSE */}
+                <div className="">
+                    {castleStep == 5 || castleLooted == 2 ? (
+                        <>
+                            <div className={"finalGoose"} onClick={() => buttonLinkOnClick('gooseLink')}>
+                                <a href="http://goosebumper.xyz/" target="_blank" id="gooseLink"></a>
+                            </div>
+                        </>
+                    ) : ( <></> )}
+                </div>
                 
             </div>
         </div>

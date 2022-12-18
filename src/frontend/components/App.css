@@ -49,7 +49,7 @@ body {
   background-image: url("./assets/castle/Castle_5_Treasure.jpg");
 }
 
-.treasure, .goose {
+.treasure, .goose, .finalGoose {
   /* background-color: rgb(.5,.5,.5,.5); */
   overflow: hidden;
   position: absolute;
@@ -61,7 +61,11 @@ body {
 .goose {
   left: 55%;
 }
-.treasure:hover, .goose:hover, .FarmLastPlant:hover {
+.finalGoose {
+  left: 50%;
+}
+
+.treasure:hover, .goose:hover, .finalGoose:hover, .FarmLastPlant:hover {
   cursor: pointer;
 }
 
@@ -281,12 +285,15 @@ a:link, a:visited, a:hover, a:active {
 
 @media only screen and (max-width: 1199.98px){
   
-.treasure, .goose {
+.treasure, .goose, .finalGoose {
   left: 0%;
   width: 48%;
 }
 .goose {
   left: 55%;
+}
+.finalGoose{
+  left: 35%;
 }
 
 .Castle_1 {
